@@ -1066,15 +1066,15 @@ a {
   .liquid-glass-pill { padding: 10px 20px; }
 }
 
-/* Smartphones & Small Tablets (< 768px) - 60FPS/120FPS Buttery Smooth */
+/* Smartphones & Small Tablets (< 768px) - 60FPS/120FPS Free Smooth Scroll (No Auto-Snap) */
 @media (max-width: 767px) {
-  html {
-    scroll-snap-type: y proximity;
+  html, body {
+    scroll-snap-type: none !important;
     -webkit-overflow-scrolling: touch;
   }
 
   .scroll-chapters-track {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none !important;
   }
 
   .cinematic-pinned-stage,
@@ -1093,8 +1093,12 @@ a {
   .cinematic-chapter { 
     padding: 30px 16px; 
     justify-content: center;
-    scroll-snap-align: center;
-    scroll-snap-stop: normal;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
+
+  .showcase-section {
+    scroll-snap-align: none !important;
   }
   
   .apple-editorial-card { 
