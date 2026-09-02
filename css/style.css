@@ -265,7 +265,7 @@ video::-webkit-media-controls-panel {
 }
 
 /* ==========================================================================
-   3. LIQUID GLASS BOUNCING SCROLL INDICATOR (APPLE CLEAN MINIMALIST)
+   3. APPLE BLUE PILL SCROLL INDICATOR (MATCHING BUY BUTTON LAYOUT)
    ========================================================================== */
 .liquid-glass-scroll {
   position: absolute;
@@ -276,94 +276,46 @@ video::-webkit-media-controls-panel {
   text-decoration: none;
   cursor: pointer;
   pointer-events: auto;
-  animation: liquidGlassBounce 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: appleBtnBounce 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.liquid-glass-pill {
-  background: rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-top-color: rgba(255, 255, 255, 0.55);
-  border-bottom-color: rgba(255, 255, 255, 0.18);
-  padding: 11px 22px;
-  border-radius: var(--radius-pill);
+.apple-scroll-pill {
+  background: #0071e3;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 980px;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 
-    0 12px 36px rgba(0, 0, 0, 0.4),
-    0 0 24px rgba(41, 151, 255, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.25);
-  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.liquid-glass-pill::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-  transform: skewX(-25deg);
-  animation: glassShimmer 4.5s infinite;
-}
-
-@keyframes glassShimmer {
-  0% { left: -120%; }
-  35%, 100% { left: 220%; }
-}
-
-.liquid-text {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #ffffff;
-  letter-spacing: -0.015em;
-  white-space: nowrap;
-}
-
-.liquid-arrow-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(41, 151, 255, 0.28);
-  border: 1px solid rgba(41, 151, 255, 0.6);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
-  box-shadow: 0 0 12px rgba(41, 151, 255, 0.4);
+  gap: 8px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0, 113, 227, 0.45);
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.liquid-glass-scroll:hover .liquid-glass-pill {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 
-    0 16px 48px rgba(0, 0, 0, 0.55),
-    0 0 40px rgba(41, 151, 255, 0.55),
-    inset 0 1px 2px rgba(255, 255, 255, 0.7);
-  transform: scale(1.05);
+.liquid-glass-scroll:hover .apple-scroll-pill {
+  background: #0077ed;
+  transform: scale(1.03);
+  box-shadow: 0 6px 26px rgba(0, 113, 227, 0.65);
 }
 
-.liquid-glass-scroll:hover .liquid-arrow-icon {
-  background: var(--apple-blue);
-  box-shadow: 0 0 18px var(--apple-blue);
+.apple-scroll-pill svg {
+  transition: transform 0.25s ease;
+}
+
+.liquid-glass-scroll:hover .apple-scroll-pill svg {
   transform: translateY(2px);
 }
 
-@keyframes liquidGlassBounce {
+@keyframes appleBtnBounce {
   0%, 100% {
-    transform: translateX(-50%) translateY(0) scale(1);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 24px rgba(41, 151, 255, 0.25);
+    transform: translateX(-50%) translateY(0);
   }
   50% {
-    transform: translateX(-50%) translateY(12px) scale(1.02);
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55), 0 0 36px rgba(41, 151, 255, 0.45);
+    transform: translateX(-50%) translateY(8px);
   }
 }
 
@@ -1159,9 +1111,7 @@ video::-webkit-media-controls-panel {
   .apple-stat-label { font-size: 12px; }
   
   .liquid-glass-scroll { bottom: 20px; }
-  .liquid-glass-pill { padding: 8px 16px; gap: 8px; }
-  .liquid-text { font-size: 12px; }
-  .liquid-arrow-icon { width: 20px; height: 20px; }
+  .apple-scroll-pill { padding: 9px 18px; font-size: 13.5px; }
   
   .showcase-wrapper { padding: 0 14px; }
   .apple-card-container { padding: 20px 14px; border-radius: 20px; }
