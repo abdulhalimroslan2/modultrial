@@ -1,55 +1,31 @@
 /**
- * MODUL TRIAL SPM 2026 - INTERACTIVE 3D FLIPBOOK ENGINE
+ * MODUL TRIAL SPM 2026 - INTERACTIVE A4 LANDSCAPE FLIPBOOK ENGINE
  * Powered by StPageFlip with Apple Store Malaysia Design System
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Page Assets Configuration
-  const bookData = {
+  // Configuration
+  const bookConfig = {
     pelajar: {
-      title: "Versi Pelajar (Modul Soalan Topikal)",
-      subtitle: "69 Muka Surat • Koleksi Soalan SPM Kertas 2 Mengikut Bab Tingkatan 4 & 5",
-      badge: "Modul Soalan",
-      totalPages: 10,
-      pages: [
-        { src: "assets/pages/pelajar/page_1.jpg", alt: "Muka Depan Versi Pelajar" },
-        { src: "assets/pages/pelajar/page_2.jpg", alt: "Panduan & Agihan Markah" },
-        { src: "assets/pages/pelajar/page_3.jpg", alt: "Bab 1 Pengukuran" },
-        { src: "assets/pages/pelajar/page_4.jpg", alt: "Bab 2 Daya & Gerakan I" },
-        { src: "assets/pages/pelajar/page_5.jpg", alt: "Soalan Struktur Percubaan SPM" },
-        { src: "assets/pages/pelajar/page_6.jpg", alt: "Soalan Bahagian B (Esei Pendek)" },
-        { src: "assets/pages/pelajar/page_7.jpg", alt: "Soalan Bahagian C (Esei Penuh)" },
-        { src: "assets/pages/pelajar/page_8.jpg", alt: "Bab 3 Kegravitian" },
-        { src: "assets/pages/pelajar/page_9.jpg", alt: "Bab 4 Haba & Termodinamik" },
-        { src: "assets/pages/pelajar/page_10.jpg", alt: "Bab 5 Gelombang" }
-      ]
+      title: "Versi Pelajar (Modul Soalan Topikal Kertas 2)",
+      subtitle: "69 Muka Surat • Format A4 Landscape • Susunan Topikal Tingkatan 4 & 5",
+      totalPages: 10
     },
     guru: {
       title: "Versi Guru (Skema Analisis & Tip A+)",
-      subtitle: "69 Muka Surat • Skema Pemarkahan Rasmi, Rubrik Jawapan Lengkap & Tip Pemeriksa",
-      badge: "Skema & Analisis",
-      totalPages: 10,
-      pages: [
-        { src: "assets/pages/guru/page_1.jpg", alt: "Muka Depan Versi Guru" },
-        { src: "assets/pages/guru/page_2.jpg", alt: "Rubrik & Skema Analisis Soalan" },
-        { src: "assets/pages/guru/page_3.jpg", alt: "Skema Jawapan Bab 1" },
-        { src: "assets/pages/guru/page_4.jpg", alt: "Skema Jawapan Bab 2" },
-        { src: "assets/pages/guru/page_5.jpg", alt: "Pemarkahan Langkah Demi Langkah" },
-        { src: "assets/pages/guru/page_6.jpg", alt: "Kata Kunci & Formula Wajib" },
-        { src: "assets/pages/guru/page_7.jpg", alt: "Skema Bahagian C & Tip Skor Maksimum" },
-        { src: "assets/pages/guru/page_8.jpg", alt: "Skema Bab 3 Kegravitian" },
-        { src: "assets/pages/guru/page_9.jpg", alt: "Skema Bab 4 Haba" },
-        { src: "assets/pages/guru/page_10.jpg", alt: "Skema Bab 5 Gelombang" }
-      ]
+      subtitle: "69 Muka Surat • Format A4 Landscape • Rubrik Pemarkahan Rasmi & Tip Pemeriksa",
+      totalPages: 10
     }
   };
 
   let currentMode = 'pelajar';
-  let pageFlipInstance = null;
+  let flipPelajar = null;
+  let flipGuru = null;
   let soundEnabled = true;
 
   // DOM Elements
-  const container = document.getElementById('flipbookBook');
+  const containerPelajar = document.getElementById('bookPelajar');
+  const containerGuru = document.getElementById('bookGuru');
   const pageIndicator = document.getElementById('pageIndicator');
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
@@ -73,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         audioCtx.resume();
       }
 
-      const bufferSize = audioCtx.sampleRate * 0.08; // 80ms
+      const bufferSize = audioCtx.sampleRate * 0.07; // 70ms
       const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
       }
 
       const noise = audioCtx.createBufferSource();
@@ -85,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'bandpass';
-      filter.frequency.value = 1800;
-      filter.Q.value = 1.8;
+      filter.frequency.value = 2200;
+      filter.Q.value = 2.0;
 
       const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.07);
 
       noise.connect(filter);
       filter.connect(gain);
@@ -98,118 +74,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
       noise.start();
     } catch (e) {
-      // Audio not supported or blocked
+      // Audio not supported or blocked by browser
     }
   }
 
-  // Calculate Responsive Page Dimensions
-  function getBookDimensions() {
-    const isMobile = window.innerWidth <= 768;
-    const stageWidth = Math.min(window.innerWidth - 60, 1020);
+  // Calculate Responsive Dimensions for A4 Landscape (1.414 ratio)
+  function getLandscapeDimensions() {
+    const stageWidth = Math.min(window.innerWidth - 48, 1020);
     
-    if (isMobile) {
-      const width = Math.min(stageWidth * 0.92, 360);
-      const height = width * 1.414; // A4 aspect ratio
-      return { width: Math.round(width), height: Math.round(height), mode: 'single' };
+    if (window.innerWidth <= 600) {
+      // Small Mobile
+      const width = Math.min(stageWidth * 0.96, 380);
+      const height = Math.round(width / 1.414);
+      return { width: Math.round(width), height: height };
+    } else if (window.innerWidth <= 900) {
+      // Tablet / Medium
+      const width = Math.min(stageWidth * 0.88, 620);
+      const height = Math.round(width / 1.414);
+      return { width: Math.round(width), height: height };
     } else {
-      const pageW = Math.min(Math.round(stageWidth * 0.44), 440);
-      const pageH = Math.round(pageW * 1.414);
-      return { width: pageW, height: pageH, mode: 'double' };
+      // Desktop
+      const width = Math.min(stageWidth * 0.78, 760);
+      const height = Math.round(width / 1.414); // ~537px
+      return { width: Math.round(width), height: height };
     }
   }
 
-  // Render Pages into DOM
-  function renderBookPages(mode) {
-    const data = bookData[mode];
-    container.innerHTML = '';
-    
-    data.pages.forEach((page, index) => {
-      const pageEl = document.createElement('div');
-      pageEl.className = 'page' + (index === 0 ? ' --cover' : '');
-      pageEl.setAttribute('data-density', index === 0 || index === data.pages.length - 1 ? 'hard' : 'soft');
+  function createFlipInstance(element, onFlipCallback) {
+    const dims = getLandscapeDimensions();
 
-      const img = document.createElement('img');
-      img.src = page.src;
-      img.alt = page.alt;
-      img.loading = index < 4 ? 'eager' : 'lazy';
-
-      pageEl.appendChild(img);
-      container.appendChild(pageEl);
-    });
-
-    activeBookTitle.textContent = data.title;
-    activeBookDesc.textContent = data.subtitle;
-  }
-
-  // Initialize StPageFlip
-  function initFlipbook(mode) {
-    if (pageFlipInstance) {
-      try {
-        pageFlipInstance.destroy();
-      } catch (e) {
-        console.warn(e);
-      }
-      pageFlipInstance = null;
-    }
-
-    renderBookPages(mode);
-    const dims = getBookDimensions();
-
-    if (typeof St === 'undefined' || !St.PageFlip) {
-      console.error('St.PageFlip library not loaded');
-      return;
-    }
-
-    pageFlipInstance = new St.PageFlip(container, {
+    const instance = new St.PageFlip(element, {
       width: dims.width,
       height: dims.height,
       size: 'fixed',
-      minWidth: 280,
-      maxWidth: 480,
-      minHeight: 400,
-      maxHeight: 680,
-      maxShadowOpacity: 0.45,
-      showCover: true,
+      minWidth: 260,
+      maxWidth: 820,
+      minHeight: 180,
+      maxHeight: 580,
+      maxShadowOpacity: 0.35,
+      showCover: false,
       mobileScrollSupport: true,
-      usePortrait: dims.mode === 'single',
+      usePortrait: true, // Clean single A4 landscape sheet view
       startPage: 0,
       drawShadow: true,
-      flippingTime: 700
+      flippingTime: 650,
+      swipeDistance: 30
     });
 
-    pageFlipInstance.loadFromHTML(document.querySelectorAll('#flipbookBook .page'));
+    instance.loadFromHTML(element.querySelectorAll('.page'));
 
-    pageFlipInstance.on('flip', (e) => {
+    instance.on('flip', (e) => {
       playPaperSound();
-      updatePageIndicator(e.data);
+      if (onFlipCallback) onFlipCallback(e.data);
     });
 
-    pageFlipInstance.on('changeState', (e) => {
+    instance.on('changeState', (e) => {
       if (e.data === 'flipping') {
         playPaperSound();
       }
     });
 
-    updatePageIndicator(0);
+    return instance;
+  }
+
+  function getActiveInstance() {
+    return currentMode === 'pelajar' ? flipPelajar : flipGuru;
   }
 
   function updatePageIndicator(pageIndex) {
-    const total = bookData[currentMode].totalPages;
+    const total = bookConfig[currentMode].totalPages;
     const current = Math.min(pageIndex + 1, total);
     pageIndicator.textContent = `Halaman ${current} / ${total}`;
     
-    // Update button states
     if (prevBtn) prevBtn.style.opacity = pageIndex === 0 ? '0.4' : '1';
     if (nextBtn) nextBtn.style.opacity = pageIndex >= total - 1 ? '0.4' : '1';
   }
 
-  // Event Listeners for Segmented Switcher
+  // Initialize both books
+  function initAllBooks() {
+    if (typeof St === 'undefined' || !St.PageFlip) {
+      console.error('St.PageFlip library not ready');
+      return;
+    }
+
+    try {
+      if (flipPelajar) flipPelajar.destroy();
+      if (flipGuru) flipGuru.destroy();
+    } catch (e) {
+      console.warn(e);
+    }
+
+    // Initialize Pelajar
+    containerPelajar.style.display = 'block';
+    containerGuru.style.display = 'none';
+
+    flipPelajar = createFlipInstance(containerPelajar, (pageIndex) => {
+      if (currentMode === 'pelajar') updatePageIndicator(pageIndex);
+    });
+
+    // Initialize Guru
+    containerGuru.style.display = 'block';
+    flipGuru = createFlipInstance(containerGuru, (pageIndex) => {
+      if (currentMode === 'guru') updatePageIndicator(pageIndex);
+    });
+
+    // Set initial active state
+    if (currentMode === 'pelajar') {
+      containerPelajar.style.display = 'block';
+      containerGuru.style.display = 'none';
+      updatePageIndicator(flipPelajar.getCurrentPageIndex() || 0);
+    } else {
+      containerPelajar.style.display = 'none';
+      containerGuru.style.display = 'block';
+      updatePageIndicator(flipGuru.getCurrentPageIndex() || 0);
+    }
+  }
+
+  // Segmented Switcher Handlers
   segPelajar.addEventListener('click', () => {
     if (currentMode === 'pelajar') return;
     currentMode = 'pelajar';
     segPelajar.classList.add('active');
     segGuru.classList.remove('active');
-    initFlipbook('pelajar');
+
+    activeBookTitle.textContent = bookConfig.pelajar.title;
+    activeBookDesc.textContent = bookConfig.pelajar.subtitle;
+
+    containerGuru.style.display = 'none';
+    containerPelajar.style.display = 'block';
+    if (flipPelajar) {
+      updatePageIndicator(flipPelajar.getCurrentPageIndex());
+    }
   });
 
   segGuru.addEventListener('click', () => {
@@ -217,19 +212,29 @@ document.addEventListener('DOMContentLoaded', () => {
     currentMode = 'guru';
     segGuru.classList.add('active');
     segPelajar.classList.remove('active');
-    initFlipbook('guru');
+
+    activeBookTitle.textContent = bookConfig.guru.title;
+    activeBookDesc.textContent = bookConfig.guru.subtitle;
+
+    containerPelajar.style.display = 'none';
+    containerGuru.style.display = 'block';
+    if (flipGuru) {
+      updatePageIndicator(flipGuru.getCurrentPageIndex());
+    }
   });
 
   // HUD Controls
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      if (pageFlipInstance) pageFlipInstance.flipPrev();
+      const active = getActiveInstance();
+      if (active) active.flipPrev();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      if (pageFlipInstance) pageFlipInstance.flipNext();
+      const active = getActiveInstance();
+      if (active) active.flipNext();
     });
   }
 
@@ -262,21 +267,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      if (pageFlipInstance) pageFlipInstance.flipNext();
+      const active = getActiveInstance();
+      if (active) active.flipNext();
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      if (pageFlipInstance) pageFlipInstance.flipPrev();
+      const active = getActiveInstance();
+      if (active) active.flipPrev();
     }
   });
 
-  // Window Resize Debounce
+  // Responsive Resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      initFlipbook(currentMode);
-    }, 300);
+      initAllBooks();
+    }, 350);
   });
 
-  // Initial Load
-  initFlipbook('pelajar');
+  // Start initialization
+  initAllBooks();
 });
