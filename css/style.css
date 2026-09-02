@@ -270,7 +270,7 @@ a {
 }
 
 .accordion-item.active .accordion-body {
-  max-height: 240px;
+  max-height: 400px;
   opacity: 1;
   padding-top: 10px;
 }
@@ -279,6 +279,31 @@ a {
   font-size: 14px;
   line-height: 1.55;
   color: var(--text-muted);
+}
+
+.accordion-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.accordion-feature-list li {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.check-icon {
+  color: var(--apple-green);
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .accordion-meta {
