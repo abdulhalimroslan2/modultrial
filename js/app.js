@@ -158,22 +158,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Chapter Content Fade & Parallax Animations
-    gsap.fromTo("#ch1 .chapter-content", 
+    gsap.fromTo("#ch1 .apple-editorial-content", 
       { opacity: 1, y: 0 }, 
       { opacity: 0, y: -60, scrollTrigger: { trigger: "#ch1", start: "top top", end: "bottom top", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch2 .chapter-content", 
+    gsap.fromTo("#ch2 .apple-editorial-content", 
       { opacity: 0, y: 80, scale: 0.96 }, 
       { opacity: 1, y: 0, scale: 1, scrollTrigger: { trigger: "#ch2", start: "top 70%", end: "center center", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch3 .chapter-content", 
+    gsap.fromTo("#ch3 .apple-editorial-content", 
       { opacity: 0, y: 80 }, 
       { opacity: 1, y: 0, scrollTrigger: { trigger: "#ch3", start: "top 70%", end: "center center", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch4 .chapter-content", 
+    gsap.fromTo("#ch4 .apple-editorial-content", 
       { opacity: 0, y: 80 }, 
       { opacity: 1, y: 0, scrollTrigger: { trigger: "#ch4", start: "top 70%", end: "center center", scrub: 1 } }
     );
