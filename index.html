@@ -3,18 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>SPM 2026 Physics Paper 2 Pecutan Module Preview | Store</title>
-  <meta name="description" content="Interactive 3D preview of SPM 2026 Physics Paper 2 Pecutan Module in A4 Landscape format. Flip through topical questions and full marking schemes.">
+  <title>SPM 2026 Physics Paper 2 Pecutan Module | Official Cinematic Experience</title>
+  <meta name="description" content="Official cinematic preview of SPM 2026 Physics Paper 2 Pecutan Module. Ultra-precision 60fps robotic scan journey, 110+ state trial topical questions, and interactive A4 Landscape 3D Flipbook.">
   
-  <!-- Apple Store Malaysia Minimalist Design System -->
+  <!-- Apple Typography & Design System -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- GSAP, ScrollTrigger & ScrollToPlugin Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 </head>
-<body>
+<body class="cinematic-theme">
 
   <!-- ==========================================================================
-       1. APPLE GLOBAL NAVIGATION
+       1. APPLE GLOBAL NAVIGATION (TRANSLUCENT TITANIUM)
        ========================================================================== -->
-  <nav class="globalnav">
+  <nav class="globalnav" id="globalNav">
     <div class="globalnav-content">
       <a href="https://sirhalimstore.vercel.app/" class="globalnav-logo" aria-label="Apple">
         <svg height="44" viewBox="0 0 14 44" width="14" xmlns="http://www.w3.org/2000/svg">
@@ -22,158 +31,361 @@
         </svg>
       </a>
 
+      <div class="nav-middle-title">Physics Paper 2 <em>Pecutan</em> Module</div>
+
       <ul class="globalnav-list">
         <li class="globalnav-item"><a href="https://sirhalimstore.vercel.app/">Store</a></li>
-        <li class="globalnav-item"><a href="https://kertas22026.vercel.app/" target="_blank">Redeem License Code</a></li>
+        <li class="globalnav-item"><a href="#flipbookSection">3D Preview</a></li>
+        <li class="globalnav-item"><a href="https://kertas22026.vercel.app/" target="_blank">Redeem License</a></li>
       </ul>
 
-      <a href="https://sirhalimstore.vercel.app/" target="_blank" class="globalnav-cta">Buy — RM 2.99</a>
+      <div class="nav-right-actions">
+        <a href="https://sirhalimstore.vercel.app/" target="_blank" class="globalnav-cta">Buy — RM 2.99</a>
+      </div>
     </div>
   </nav>
 
   <!-- ==========================================================================
-       2. SHOWCASE SECTION (APPLE SPLIT-VIEW CARD)
+       2. SCROLL-PINNED CINEMATIC VIDEO BACKDROP & HUD STAGE
        ========================================================================== -->
-  <main class="showcase-wrapper">
+  <div class="cinematic-scroll-container" id="scrollContainer">
     
-    <!-- Section Header (Left Aligned) -->
-    <header class="showcase-header">
-      <h1 class="showcase-title">Physics Paper 2 <em>Pecutan</em> Module.</h1>
-    </header>
-
-    <!-- Apple Interactive Split-View Card -->
-    <div class="apple-card-container" id="flipbookCard">
+    <!-- Pinned Viewport Frame -->
+    <div class="cinematic-pinned-stage" id="pinnedStage">
       
-      <!-- Left Column: Accordion Feature Switcher -->
-      <div class="showcase-sidebar">
-        <div class="accordion-list">
-          
-          <!-- Tab 1: Student Version (Active by default) -->
-          <div class="accordion-item active" id="tabPelajar" data-mode="pelajar">
-            <div class="accordion-header">
-              <div class="accordion-title">Student Version</div>
-              <div class="accordion-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </div>
-            </div>
-            <div class="accordion-body">
-              <p class="accordion-text">
-                Topical Paper 2 question collection structured according to the Form 4 & 5 DSKP syllabus. Features 10 sets of high-performing state trial exam questions arranged in a crisp, print-ready A4 Landscape layout.
-              </p>
-              <div class="accordion-meta">
-                <span>69 Pages • Topical Question Module</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab 2: Teacher Version -->
-          <div class="accordion-item" id="tabGuru" data-mode="guru">
-            <div class="accordion-header">
-              <div class="accordion-title">Teacher Version</div>
-              <div class="accordion-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </div>
-            </div>
-            <div class="accordion-body">
-              <p class="accordion-text">
-                Official marking scheme complete with analytical rubrics, step-by-step formula workings, compulsory keywords, and SPM examiner tips to guide students toward achieving an A+ grade.
-              </p>
-              <div class="accordion-meta">
-                <span>69 Pages • Analytical Scheme & A+ Tips</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab 3: Key Highlights -->
-          <div class="accordion-item" id="tabFormat" data-mode="format">
-            <div class="accordion-header">
-              <div class="accordion-title">Key Highlights</div>
-              <div class="accordion-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </div>
-            </div>
-            <div class="accordion-body">
-              <ul class="accordion-feature-list">
-                <li><span class="check-icon">✓</span> 110+ topical questions modelled after 10 state trial papers (Bahasa Melayu medium)</li>
-                <li><span class="check-icon">✓</span> Organised topically across Form 4 &amp; Form 5 syllabi</li>
-                <li><span class="check-icon">✓</span> Compact layout designed to minimise printing and photocopying costs</li>
-                <li><span class="check-icon">✓</span> Comprehensive Physics formula sheet provided on the front pages</li>
-                <li><span class="check-icon">✓</span> Complete Teacher's Version (full marking scheme) included</li>
-              </ul>
-              <div class="accordion-meta">
-                <span>100% Latest SPM KSSM Format</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Sidebar Direct CTAs -->
-        <div class="sidebar-actions">
-          <a href="https://sirhalimstore.vercel.app/" target="_blank" class="btn-apple-primary">
-            <span>Buy — RM2.99</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-
-          <a href="https://kertas22026.vercel.app/" target="_blank" class="btn-apple-secondary">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <span>Redeem Buyer License Code</span>
-          </a>
-        </div>
+      <!-- Hardware Accelerated 60FPS Video Canvas & Elements -->
+      <div class="video-canvas-wrapper">
+        <video 
+          id="heroVideo" 
+          class="cinematic-video" 
+          preload="auto" 
+          muted 
+          playsinline 
+          autoplay
+          loop
+          webkit-playsinline>
+          <source src="assets/media/master_cinematic_journey.mp4" type="video/mp4">
+        </video>
+        <div class="cinematic-vignette"></div>
+        <div class="cinematic-grid-overlay"></div>
+        <div class="laser-scanner-beam" id="laserBeam"></div>
       </div>
 
-      <!-- Right Column: A4 Landscape Interactive Flipbook Stage -->
-      <div class="showcase-stage-card">
-        
-        <div class="a4-landscape-stage">
-          <div class="a4-landscape-book" id="landscapeBook">
-            <div class="page-layer" id="baseLayer">
-              <!-- Rendered dynamically -->
-            </div>
+      <!-- Real-time Robotic Telemetry HUD (Apple Pro Interface) -->
+      <div class="telemetry-hud-container" id="telemetryHud">
+        <div class="hud-top-bar">
+          <div class="hud-tele-pill">
+            <span class="hud-live-dot"></span>
+            <span class="hud-mono" id="recStatus">LIVE SCAN 60FPS</span>
+          </div>
+          <div class="hud-tele-pill">
+            <span class="hud-label">COORDS:</span>
+            <span class="hud-mono" id="armCoords">[X: 142.8mm, Y: 89.4mm, Z: 320.0mm]</span>
+          </div>
+          <div class="hud-tele-pill hide-mobile">
+            <span class="hud-label">OPTICAL:</span>
+            <span class="hud-mono" id="opticalFidelity">99.8% FIDELITY</span>
+          </div>
+          <div class="hud-tele-pill">
+            <span class="hud-label">TIMECODE:</span>
+            <span class="hud-mono" id="timecodeDisplay">00:00:00</span>
           </div>
         </div>
 
-        <!-- Minimalist Cupertino HUD -->
-        <div class="stage-hud">
-          <button class="hud-btn" id="prevPageBtn" title="Previous Page" aria-label="Previous Page">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
+        <div class="hud-corner-bracket top-left"></div>
+        <div class="hud-corner-bracket top-right"></div>
+        <div class="hud-corner-bracket bottom-left"></div>
+        <div class="hud-corner-bracket bottom-right"></div>
+      </div>
 
-          <div class="hud-indicator" id="pageIndicator">
-            Page 1 / 10
+      <!-- Floating Journey Navigation & Sound Synth Controller -->
+      <div class="floating-tour-bar" id="tourBar">
+        <button class="tour-btn" id="playPauseBtn" title="Play / Pause Auto Tour" aria-label="Play / Pause">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" id="playIcon">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </button>
+
+        <div class="tour-timeline">
+          <div class="tour-progress-bar" id="tourProgress"></div>
+        </div>
+
+        <div class="tour-chapters-nav">
+          <button class="ch-jump active" data-progress="0.05">01 Scan</button>
+          <button class="ch-jump" data-progress="0.25">02 Matrix</button>
+          <button class="ch-jump" data-progress="0.50">03 Rubric</button>
+          <button class="ch-jump" data-progress="0.75">04 Format</button>
+          <button class="ch-jump" data-progress="0.95">05 Climax</button>
+        </div>
+
+        <button class="tour-btn sound-toggle-btn" id="ambientSoundBtn" title="Toggle Ambient Audio" aria-label="Ambient Sound">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Scroll Chapters Layer (Driven by ScrollTrigger) -->
+    <div class="scroll-chapters-track">
+      
+      <!-- Chapter 01: Hero Reveal (0% - 20%) -->
+      <section class="cinematic-chapter chapter-hero" id="ch1">
+        <div class="chapter-content">
+          <div class="hero-badge">
+            <span class="laser-icon"></span>
+            <span>SPM 2026 SPECIAL EDITION</span>
+          </div>
+          <h1 class="hero-main-title">
+            Physics Paper 2<br>
+            <em>Pecutan</em> Module.
+          </h1>
+          <p class="hero-lead-text">
+            Engineered with robotic precision. 110+ State Trial Exam Questions. Full Step-by-Step Marking Scheme.
+          </p>
+          <div class="hero-actions">
+            <a href="https://sirhalimstore.vercel.app/" target="_blank" class="btn-titanium-primary">
+              <span>Buy Now — RM2.99</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#flipbookSection" class="btn-titanium-ghost">
+              <span>Explore 3D Reader</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 02: 110+ Question Matrix (20% - 40%) -->
+      <section class="cinematic-chapter chapter-matrix" id="ch2">
+        <div class="chapter-content glass-card">
+          <div class="chapter-tag">CHAPTER 02 // TOPICAL MATRIX</div>
+          <h2 class="chapter-title">110+ High-Yield State Trial Questions.</h2>
+          <p class="chapter-desc">
+            Modelled strictly on the latest 10 state trial papers across Malaysia. Structured chapter-by-chapter across Form 4 & Form 5 to accelerate SPM preparation.
+          </p>
+          <div class="feature-pills-grid">
+            <div class="feature-pill"><span class="pill-dot blue"></span> Bab 1: Pengukuran</div>
+            <div class="feature-pill"><span class="pill-dot cyan"></span> Bab 2: Daya & Gerakan I</div>
+            <div class="feature-pill"><span class="pill-dot gold"></span> Bab 3: Kegravitian</div>
+            <div class="feature-pill"><span class="pill-dot purple"></span> Bab 4: Haba</div>
+            <div class="feature-pill"><span class="pill-dot green"></span> Bab 5: Gelombang</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 03: Master Marking Rubric (40% - 60%) -->
+      <section class="cinematic-chapter chapter-rubric" id="ch3">
+        <div class="chapter-content glass-card">
+          <div class="chapter-tag">CHAPTER 03 // MASTER RUBRIC</div>
+          <h2 class="chapter-title">Teacher's Analytical Marking Scheme.</h2>
+          <p class="chapter-desc">
+            Equipped with step-by-step formula workings, compulsory examiner keywords, and section C max-scoring tips to secure top A+ grades.
+          </p>
+          <div class="rubric-metrics">
+            <div class="metric-box">
+              <span class="metric-val">100%</span>
+              <span class="metric-lbl">SPM KSSM Rubric</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">69</span>
+              <span class="metric-lbl">Full A4 Pages</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">10</span>
+              <span class="metric-lbl">State Trial Sets</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 04: Print Efficiency & Formula Sheet (60% - 80%) -->
+      <section class="cinematic-chapter chapter-efficiency" id="ch4">
+        <div class="chapter-content glass-card">
+          <div class="chapter-tag">CHAPTER 04 // SMART ARCHITECTURE</div>
+          <h2 class="chapter-title">Compact Print-Ready Efficiency.</h2>
+          <p class="chapter-desc">
+            Optimized A4 Landscape format saves up to 40% in printing and photocopying costs, while keeping circuit schematics and graph plots razor sharp. Complete physics formula sheet provided upfront.
+          </p>
+        </div>
+      </section>
+
+      <!-- Chapter 05: Climax Transition (80% - 100%) -->
+      <section class="cinematic-chapter chapter-climax" id="ch5">
+        <div class="chapter-content">
+          <div class="chapter-tag gold-glow">CHAPTER 05 // APEX CLIMAX</div>
+          <h2 class="chapter-title big-gold">The Live 3D Module.</h2>
+          <p class="chapter-desc">
+            Flip through the actual high-resolution sample pages below in realistic 3D.
+          </p>
+          <a href="#flipbookSection" class="scroll-down-cue">
+            <span>Enter Interactive Showcase</span>
+            <div class="cue-arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       3. INTERACTIVE 3D A4 LANDSCAPE FLIPBOOK SHOWCASE SECTION
+       ========================================================================== -->
+  <main class="showcase-section" id="flipbookSection">
+    
+    <div class="showcase-wrapper">
+      
+      <!-- Section Header (Left Aligned) -->
+      <header class="showcase-header">
+        <h2 class="showcase-title">Physics Paper 2 <em>Pecutan</em> Module.</h2>
+      </header>
+
+      <!-- Apple Interactive Split-View Card -->
+      <div class="apple-card-container" id="flipbookCard">
+        
+        <!-- Left Column: Accordion Feature Switcher -->
+        <div class="showcase-sidebar">
+          <div class="accordion-list">
+            
+            <!-- Tab 1: Student Version (Active by default) -->
+            <div class="accordion-item active" id="tabPelajar" data-mode="pelajar">
+              <div class="accordion-header">
+                <div class="accordion-title">Student Version</div>
+                <div class="accordion-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body">
+                <p class="accordion-text">
+                  Topical Paper 2 question collection structured according to the Form 4 & 5 DSKP syllabus. Features 10 sets of high-performing state trial exam questions arranged in a crisp, print-ready A4 Landscape layout.
+                </p>
+                <div class="accordion-meta">
+                  <span>69 Pages • Topical Question Module</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Teacher Version -->
+            <div class="accordion-item" id="tabGuru" data-mode="guru">
+              <div class="accordion-header">
+                <div class="accordion-title">Teacher Version</div>
+                <div class="accordion-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body">
+                <p class="accordion-text">
+                  Official marking scheme complete with analytical rubrics, step-by-step formula workings, compulsory keywords, and SPM examiner tips to guide students toward achieving an A+ grade.
+                </p>
+                <div class="accordion-meta">
+                  <span>69 Pages • Analytical Scheme & A+ Tips</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 3: Key Highlights -->
+            <div class="accordion-item" id="tabFormat" data-mode="format">
+              <div class="accordion-header">
+                <div class="accordion-title">Key Highlights</div>
+                <div class="accordion-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body">
+                <ul class="accordion-feature-list">
+                  <li><span class="check-icon">✓</span> 110+ topical questions modelled after 10 state trial papers (Bahasa Melayu medium)</li>
+                  <li><span class="check-icon">✓</span> Organised topically across Form 4 &amp; Form 5 syllabi</li>
+                  <li><span class="check-icon">✓</span> Compact layout designed to minimise printing and photocopying costs</li>
+                  <li><span class="check-icon">✓</span> Comprehensive Physics formula sheet provided on the front pages</li>
+                  <li><span class="check-icon">✓</span> Complete Teacher's Version (full marking scheme) included</li>
+                </ul>
+                <div class="accordion-meta">
+                  <span>100% Latest SPM KSSM Format</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <button class="hud-btn" id="nextPageBtn" title="Next Page" aria-label="Next Page">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
+          <!-- Sidebar Direct CTAs -->
+          <div class="sidebar-actions">
+            <a href="https://sirhalimstore.vercel.app/" target="_blank" class="btn-apple-primary">
+              <span>Buy — RM2.99</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
 
-          <button class="hud-btn" id="soundBtn" title="Page Turn Sound: On" aria-label="Toggle Sound" style="color: var(--apple-blue);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          </button>
+            <a href="https://kertas22026.vercel.app/" target="_blank" class="btn-apple-secondary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>Redeem Buyer License Code</span>
+            </a>
+          </div>
+        </div>
 
-          <button class="hud-btn" id="fullscreenBtn" title="Fullscreen" aria-label="Toggle Fullscreen">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-            </svg>
-          </button>
+        <!-- Right Column: A4 Landscape Interactive Flipbook Stage -->
+        <div class="showcase-stage-card">
+          
+          <div class="a4-landscape-stage">
+            <div class="a4-landscape-book" id="landscapeBook">
+              <div class="page-layer" id="baseLayer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Minimalist Cupertino HUD -->
+          <div class="stage-hud">
+            <button class="hud-btn" id="prevPageBtn" title="Previous Page" aria-label="Previous Page">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+
+            <div class="hud-indicator" id="pageIndicator">
+              Page 1 / 10
+            </div>
+
+            <button class="hud-btn" id="nextPageBtn" title="Next Page" aria-label="Next Page">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+
+            <button class="hud-btn" id="soundBtn" title="Page Turn Sound: On" aria-label="Toggle Sound" style="color: var(--apple-blue);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+
+            <button class="hud-btn" id="fullscreenBtn" title="Fullscreen" aria-label="Toggle Fullscreen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+              </svg>
+            </button>
+          </div>
+
         </div>
 
       </div>
@@ -183,7 +395,7 @@
   </main>
 
   <!-- ==========================================================================
-       3. MINIMALIST APPLE FOOTER
+       4. MINIMALIST APPLE FOOTER
        ========================================================================== -->
   <footer class="globalfooter">
     <div class="footer-content">
@@ -195,7 +407,7 @@
     </div>
   </footer>
 
-  <!-- Main JavaScript Engine -->
+  <!-- Main JavaScript Engine with GSAP & Web Audio -->
   <script src="js/app.js"></script>
 </body>
 </html>
