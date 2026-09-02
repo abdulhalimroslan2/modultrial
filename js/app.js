@@ -109,123 +109,108 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 3. 60FPS / 120FPS KEYFRAME-4 VIDEO SCRUBBING ENGINE (ZERO LAG / BUTTERY SMOOTH)
+  // 3. APPLE PROMOTION 120HZ / 60FPS HARDWARE CANVAS SCROLL ENGINE
   // ==========================================================================
-  const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-  let isVideoLoaded = false;
-  let videoDuration = 20.0;
-  let isSeeking = false;
-  let targetSeekTime = 0;
-  let lastSeekTime = 0;
-  const seekThreshold = isMobileDevice ? 0.09 : 0.03;
-  const seekThrottleMs = isMobileDevice ? 32 : 16; // 30Hz video seeking on mobile saves 70% GPU load in Low Power Mode
+  const canvas = document.getElementById('cinematicCanvas');
+  const ctx = canvas ? canvas.getContext('2d', { alpha: false, desynchronized: true }) : null;
+  const frameCount = 120;
+  const frameImages = [];
+  let isFramesLoaded = false;
+  let targetFrameProgress = 0;
+  let currentRenderProgress = 0;
+  let lastDrawnFrame = -1;
 
-  function renderVideoFrame(timestamp) {
-    if (heroVideo && isVideoLoaded) {
-      if (Math.abs(heroVideo.currentTime - targetSeekTime) > seekThreshold) {
-        if (!isMobileDevice || (timestamp - lastSeekTime >= seekThrottleMs)) {
-          lastSeekTime = timestamp;
-          try {
-            if ('fastSeek' in heroVideo) {
-              heroVideo.fastSeek(targetSeekTime);
-            } else {
-              heroVideo.currentTime = targetSeekTime;
-            }
-          } catch (e) {
-            heroVideo.currentTime = targetSeekTime;
-          }
-        }
+  function setCanvasResolution() {
+    if (!canvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = (rect.width || window.innerWidth) * dpr;
+    canvas.height = (rect.height || window.innerHeight) * dpr;
+    const frameIndex = Math.min(Math.max(Math.round(currentRenderProgress * (frameCount - 1)), 0), frameCount - 1);
+    drawFrame(frameIndex);
+  }
+
+  function drawFrame(frameIndex) {
+    if (!ctx || !canvas) return;
+    const clampedIndex = Math.min(Math.max(frameIndex, 0), frameCount - 1);
+    const img = frameImages[clampedIndex];
+    if (!img || !img.complete) return;
+
+    const cw = canvas.width;
+    const ch = canvas.height;
+    const iw = img.naturalWidth || 1280;
+    const ih = img.naturalHeight || 720;
+    const hRatio = cw / iw;
+    const vRatio = ch / ih;
+    const ratio = Math.max(hRatio, vRatio);
+    const renderW = iw * ratio;
+    const renderH = ih * ratio;
+    const shiftX = (cw - renderW) / 2;
+    const shiftY = (ch - renderH) / 2;
+
+    ctx.drawImage(img, 0, 0, iw, ih, shiftX, shiftY, renderW, renderH);
+  }
+
+  // Preload all frames asynchronously for zero-latency 120Hz scrubbing
+  let loadedCount = 0;
+  for (let i = 1; i <= frameCount; i++) {
+    const img = new Image();
+    const pad = String(i).padStart(3, '0');
+    img.src = `assets/media/frames/frame_${pad}.webp`;
+    img.onload = () => {
+      loadedCount++;
+      if (loadedCount === 1) {
+        setCanvasResolution();
+        drawFrame(0);
       }
-    }
-    isSeeking = false;
-  }
-
-  function seekVideo(targetTime) {
-    targetSeekTime = targetTime;
-    if (!isSeeking) {
-      isSeeking = true;
-      requestAnimationFrame(renderVideoFrame);
-    }
-  }
-
-  if (heroVideo) {
-    heroVideo.muted = true;
-    heroVideo.defaultMuted = true;
-    heroVideo.playsInline = true;
-    heroVideo.autoplay = false;
-    heroVideo.loop = false;
-    heroVideo.setAttribute('playsinline', '');
-    heroVideo.setAttribute('webkit-playsinline', '');
-    heroVideo.pause();
-
-    let primed = false;
-    const primeVideo = () => {
-      if (primed) return;
-      heroVideo.pause();
-      heroVideo.muted = true;
-      const playPromise = heroVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          heroVideo.pause(); // Strictly paused immediately upon decoder awake
-          primed = true;
-          isVideoLoaded = true;
-          videoDuration = heroVideo.duration || 20.0;
-          initScrollTrigger();
-        }).catch(() => {
-          heroVideo.pause();
-          primed = true;
-          isVideoLoaded = true;
-          videoDuration = heroVideo.duration || 20.0;
-          initScrollTrigger();
-        });
-      } else {
-        heroVideo.pause();
-        primed = true;
-        isVideoLoaded = true;
-        videoDuration = heroVideo.duration || 20.0;
+      if (loadedCount >= 10 && !isFramesLoaded) {
+        isFramesLoaded = true;
         initScrollTrigger();
       }
     };
-
-    heroVideo.addEventListener('loadeddata', primeVideo, { once: true });
-    heroVideo.addEventListener('canplay', primeVideo, { once: true });
-    window.addEventListener('touchstart', primeVideo, { once: true, passive: true });
-    window.addEventListener('scroll', primeVideo, { once: true, passive: true });
-    window.addEventListener('wheel', primeVideo, { once: true, passive: true });
-
-    if (heroVideo.readyState >= 2) {
-      primeVideo();
-    }
+    frameImages.push(img);
   }
+
+  // 120Hz ProMotion LERP Render Loop
+  function promotionRenderLoop() {
+    const diff = targetFrameProgress - currentRenderProgress;
+    if (Math.abs(diff) > 0.0001) {
+      currentRenderProgress += diff * 0.24;
+      const frameToDraw = Math.min(Math.max(Math.round(currentRenderProgress * (frameCount - 1)), 0), frameCount - 1);
+      if (frameToDraw !== lastDrawnFrame) {
+        lastDrawnFrame = frameToDraw;
+        drawFrame(frameToDraw);
+      }
+    }
+    requestAnimationFrame(promotionRenderLoop);
+  }
+  requestAnimationFrame(promotionRenderLoop);
+
+  window.addEventListener('resize', setCanvasResolution, { passive: true });
 
   function initScrollTrigger() {
     if (typeof gsap === 'undefined') return;
     if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
     if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
-    // Pin & scrub timeline with auto-snap to center
+    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
     const timelineConfig = {
       scrollTrigger: {
         trigger: ".cinematic-scroll-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: isMobileDevice ? 0.2 : 0.35,
+        scrub: 0.1,
         onUpdate: (self) => {
-          const progress = self.progress;
-          if (heroVideo && isVideoLoaded) {
-            const targetTime = Math.min(Math.max(progress * videoDuration, 0), videoDuration);
-            seekVideo(targetTime);
-          }
-          // Fade out liquid glass scroll indicator when scrolling past 12%
+          targetFrameProgress = self.progress;
+          // Fade out scroll indicator when scrolling past 12%
           if (scrollIndicator) {
-            scrollIndicator.style.opacity = progress > 0.12 ? '0' : '1';
-            scrollIndicator.style.pointerEvents = progress > 0.12 ? 'none' : 'auto';
+            scrollIndicator.style.opacity = self.progress > 0.12 ? '0' : '1';
+            scrollIndicator.style.pointerEvents = self.progress > 0.12 ? 'none' : 'auto';
           }
         }
       }
     };
 
-    // On Desktop/Laptop use GSAP snap; on Mobile let hardware CSS scroll-snap handle 120fps native touch physics
     if (!isMobileDevice) {
       timelineConfig.scrollTrigger.snap = {
         snapTo: [0, 0.333, 0.666, 1.0],

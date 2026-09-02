@@ -53,22 +53,9 @@
     <!-- Pinned Viewport Frame -->
     <div class="cinematic-pinned-stage" id="pinnedStage">
       
-      <!-- Hardware Accelerated 60FPS Video Canvas & Elements -->
+      <!-- Hardware Accelerated 120Hz ProMotion Canvas & Elements -->
       <div class="video-canvas-wrapper">
-        <video 
-          id="heroVideo" 
-          class="cinematic-video" 
-          preload="auto" 
-          poster="assets/media/hero_poster.jpg"
-          muted 
-          playsinline 
-          webkit-playsinline
-          controlslist="nodownload nofullscreen noremoteplayback"
-          disablepictureinpicture
-          disableremoteplayback>
-          <source src="assets/media/master_cinematic_720p.mp4" type="video/mp4">
-          <source src="assets/media/master_cinematic_journey.mp4" type="video/mp4">
-        </video>
+        <canvas id="cinematicCanvas" class="cinematic-canvas"></canvas>
         <div class="cinematic-vignette"></div>
       </div>
 
