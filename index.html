@@ -8,9 +8,6 @@
   
   <!-- Apple Store Malaysia Minimalist Design System -->
   <link rel="stylesheet" href="css/style.css">
-  
-  <!-- StPageFlip Interactive 3D Flipbook Library -->
-  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 </head>
 <body>
 
@@ -138,8 +135,12 @@
       <!-- Right Column: A4 Landscape Interactive Flipbook Stage -->
       <div class="showcase-stage-card">
         
-        <div id="flipbookWrapper">
-          <div id="flipbookBook" class="flipbook-instance"></div>
+        <div class="a4-landscape-stage">
+          <div class="a4-landscape-book" id="landscapeBook">
+            <div class="page-layer" id="baseLayer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
         </div>
 
         <!-- Minimalist Cupertino HUD -->

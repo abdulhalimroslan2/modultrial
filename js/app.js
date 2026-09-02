@@ -1,10 +1,10 @@
 /**
- * MODUL TRIAL SPM 2026 - APPLE MINIMALIST SHOWCASE ENGINE
- * Interactive Accordion & A4 Landscape Flipbook Viewer
+ * MODUL TRIAL SPM 2026 - PURE A4 LANDSCAPE 3D FLIPBOOK ENGINE
+ * Dedicated 1.414:1 Landscape Reader with Smooth 3D Page Turn & Audio
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Book Data Configuration
+  // Configuration
   const bookData = {
     pelajar: {
       title: "Versi Pelajar (Modul Soalan Topikal)",
@@ -41,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   let currentMode = 'pelajar';
-  let pageFlipInstance = null;
+  let currentPageIndex = 0;
+  let isFlipping = false;
   let soundEnabled = true;
 
   // DOM Elements
-  const wrapper = document.getElementById('flipbookWrapper');
+  const bookContainer = document.getElementById('landscapeBook');
+  const baseLayer = document.getElementById('baseLayer');
   const pageIndicator = document.getElementById('pageIndicator');
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
@@ -66,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         audioCtx.resume();
       }
 
-      const bufferSize = audioCtx.sampleRate * 0.07;
+      const bufferSize = audioCtx.sampleRate * 0.08;
       const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
       }
 
       const noise = audioCtx.createBufferSource();
@@ -78,12 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'bandpass';
-      filter.frequency.value = 2200;
-      filter.Q.value = 2.0;
+      filter.frequency.value = 2400;
+      filter.Q.value = 2.2;
 
       const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.07);
+      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
 
       noise.connect(filter);
       filter.connect(gain);
@@ -91,149 +93,163 @@ document.addEventListener('DOMContentLoaded', () => {
 
       noise.start();
     } catch (e) {
-      // Audio not supported
+      // Audio not supported or blocked
     }
   }
 
-  // Calculate Responsive Dimensions for A4 Landscape inside Split-Card
-  function getLandscapeDimensions() {
-    const isMobile = window.innerWidth <= 768;
-    const isTablet = window.innerWidth <= 990;
-
-    if (isMobile) {
-      const stageW = Math.min(window.innerWidth - 64, 400);
-      const width = Math.round(stageW);
-      const height = Math.round(width / 1.414);
-      return { width, height };
-    } else if (isTablet) {
-      const stageW = Math.min(window.innerWidth - 80, 600);
-      const width = Math.round(stageW);
-      const height = Math.round(width / 1.414);
-      return { width, height };
-    } else {
-      // Desktop Split-View Card Stage
-      const width = 640;
-      const height = Math.round(640 / 1.414); // ~453px
-      return { width, height };
-    }
+  function getActivePages() {
+    return bookData[currentMode].pages;
   }
 
-  function updatePageIndicator(pageIndex) {
-    const activeData = bookData[currentMode] || bookData.pelajar;
-    const total = activeData.totalPages;
-    const current = Math.min(pageIndex + 1, total);
-    pageIndicator.textContent = `Halaman ${current} / ${total}`;
-    
-    if (prevBtn) prevBtn.style.opacity = pageIndex === 0 ? '0.4' : '1';
-    if (nextBtn) nextBtn.style.opacity = pageIndex >= total - 1 ? '0.4' : '1';
+  function updateIndicator() {
+    const total = getActivePages().length;
+    pageIndicator.textContent = `Halaman ${currentPageIndex + 1} / ${total}`;
+
+    if (prevBtn) prevBtn.style.opacity = currentPageIndex === 0 ? '0.4' : '1';
+    if (nextBtn) nextBtn.style.opacity = currentPageIndex >= total - 1 ? '0.4' : '1';
   }
 
-  // Load Flipbook Dynamically
-  function loadBook(mode) {
-    currentMode = mode === 'format' ? 'pelajar' : mode;
+  function renderCurrentPage() {
+    const pages = getActivePages();
+    baseLayer.innerHTML = `
+      <img src="${pages[currentPageIndex].src}" alt="${pages[currentPageIndex].alt}">
+      <div class="corner-hint"></div>
+    `;
+    updateIndicator();
+  }
 
-    if (typeof St === 'undefined' || !St.PageFlip) {
-      console.error('St.PageFlip library not ready');
-      return;
-    }
+  // 3D Page Turn Forward
+  function flipNext() {
+    const pages = getActivePages();
+    if (currentPageIndex >= pages.length - 1 || isFlipping) return;
 
-    // Destroy existing instance cleanly
-    if (pageFlipInstance) {
-      try {
-        pageFlipInstance.destroy();
-      } catch (e) {
-        console.warn(e);
-      }
-      pageFlipInstance = null;
-    }
+    isFlipping = true;
+    playPaperSound();
 
-    // Recreate fresh DOM container
-    wrapper.innerHTML = '<div id="flipbookBook" class="flipbook-instance"></div>';
-    const bookEl = document.getElementById('flipbookBook');
+    const currentSrc = pages[currentPageIndex].src;
+    const nextSrc = pages[currentPageIndex + 1].src;
 
-    // Render pages
-    const data = bookData[currentMode];
-    data.pages.forEach((p) => {
-      const pageDiv = document.createElement('div');
-      pageDiv.className = 'page';
-      pageDiv.innerHTML = `<img src="${p.src}" alt="${p.alt}">`;
-      bookEl.appendChild(pageDiv);
-    });
+    // Set underlay to next page
+    baseLayer.innerHTML = `<img src="${nextSrc}" alt="${pages[currentPageIndex + 1].alt}">`;
 
-    // Calculate dimensions
-    const dims = getLandscapeDimensions();
+    // Create 3D flipping sheet on top
+    const sheet = document.createElement('div');
+    sheet.className = 'flipping-sheet flip-forward';
+    sheet.innerHTML = `
+      <div class="page-layer" style="backface-visibility: hidden;">
+        <img src="${currentSrc}">
+      </div>
+      <div class="page-layer" style="transform: rotateY(180deg); backface-visibility: hidden; background: #fafafa;">
+        <img src="${nextSrc}">
+      </div>
+    `;
 
-    // Initialize fresh StPageFlip
-    pageFlipInstance = new St.PageFlip(bookEl, {
-      width: dims.width,
-      height: dims.height,
-      size: 'fixed',
-      minWidth: 260,
-      maxWidth: 750,
-      minHeight: 180,
-      maxHeight: 530,
-      maxShadowOpacity: 0.32,
-      showCover: false,
-      usePortrait: true, // Clean Single A4 Landscape View
-      mobileScrollSupport: true,
-      startPage: 0,
-      drawShadow: true,
-      flippingTime: 600,
-      useMouseEvents: true,
-      swipeDistance: 30
-    });
+    bookContainer.appendChild(sheet);
 
-    pageFlipInstance.loadFromHTML(bookEl.querySelectorAll('.page'));
+    setTimeout(() => {
+      currentPageIndex++;
+      sheet.remove();
+      renderCurrentPage();
+      isFlipping = false;
+    }, 580);
+  }
 
-    pageFlipInstance.on('flip', (e) => {
-      playPaperSound();
-      updatePageIndicator(e.data);
-    });
+  // 3D Page Turn Backward
+  function flipPrev() {
+    const pages = getActivePages();
+    if (currentPageIndex <= 0 || isFlipping) return;
 
-    pageFlipInstance.on('changeState', (e) => {
-      if (e.data === 'flipping') {
-        playPaperSound();
-      }
-    });
+    isFlipping = true;
+    playPaperSound();
 
-    updatePageIndicator(0);
+    const currentSrc = pages[currentPageIndex].src;
+    const prevSrc = pages[currentPageIndex - 1].src;
+
+    // Base layer shows previous page
+    baseLayer.innerHTML = `<img src="${prevSrc}" alt="${pages[currentPageIndex - 1].alt}">`;
+
+    // Create 3D flipping sheet starting from left (-180deg) to right (0deg)
+    const sheet = document.createElement('div');
+    sheet.className = 'flipping-sheet flip-backward';
+    sheet.innerHTML = `
+      <div class="page-layer" style="backface-visibility: hidden;">
+        <img src="${prevSrc}">
+      </div>
+      <div class="page-layer" style="transform: rotateY(180deg); backface-visibility: hidden; background: #fafafa;">
+        <img src="${currentSrc}">
+      </div>
+    `;
+
+    bookContainer.appendChild(sheet);
+
+    setTimeout(() => {
+      currentPageIndex--;
+      sheet.remove();
+      renderCurrentPage();
+      isFlipping = false;
+    }, 580);
+  }
+
+  // Switch Mode (Versi Pelajar vs Versi Guru)
+  function switchMode(newMode) {
+    if (currentMode === newMode && !isFlipping) return;
+    currentMode = newMode;
+    currentPageIndex = 0;
+    isFlipping = false;
+    renderCurrentPage();
   }
 
   // Accordion Interaction Handlers
   accordionItems.forEach(item => {
     item.addEventListener('click', () => {
       const mode = item.getAttribute('data-mode');
-      
-      // Update active accordion state
       accordionItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
 
-      // Load matching book mode
       if (mode === 'pelajar') {
-        loadBook('pelajar');
+        switchMode('pelajar');
       } else if (mode === 'guru') {
-        loadBook('guru');
+        switchMode('guru');
       } else if (mode === 'format') {
-        loadBook('pelajar');
+        switchMode('pelajar');
       }
     });
   });
 
-  // HUD Controls
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      if (pageFlipInstance) pageFlipInstance.flipPrev();
-    });
-  }
+  // Click on book to turn page
+  bookContainer.addEventListener('click', (e) => {
+    const rect = bookContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    if (clickX > rect.width * 0.5) {
+      flipNext();
+    } else {
+      flipPrev();
+    }
+  });
 
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      if (pageFlipInstance) pageFlipInstance.flipNext();
-    });
-  }
+  // Touch Swipe Support
+  let touchStartX = 0;
+  bookContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  bookContainer.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+    if (diff < -40) {
+      flipNext(); // Swipe Left -> Next
+    } else if (diff > 40) {
+      flipPrev(); // Swipe Right -> Prev
+    }
+  }, { passive: true });
+
+  // HUD Button Handlers
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); flipPrev(); });
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); flipNext(); });
 
   if (soundBtn) {
-    soundBtn.addEventListener('click', () => {
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       soundEnabled = !soundEnabled;
       soundBtn.style.color = soundEnabled ? 'var(--apple-blue)' : 'var(--text-tertiary)';
       soundBtn.title = soundEnabled ? 'Bunyi: Hidup' : 'Bunyi: Senyap';
@@ -241,7 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (fullscreenBtn) {
-    fullscreenBtn.addEventListener('click', () => {
+    fullscreenBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (!document.fullscreenElement) {
         flipbookCard.requestFullscreen().catch(err => console.warn(err));
         fullscreenBtn.innerHTML = `
@@ -260,22 +277,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      if (pageFlipInstance) pageFlipInstance.flipNext();
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      flipNext();
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      if (pageFlipInstance) pageFlipInstance.flipPrev();
+      flipPrev();
     }
   });
 
-  // Responsive Resize
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      loadBook(currentMode);
-    }, 350);
-  });
-
-  // Initial Load
-  loadBook('pelajar');
+  // Initial Render
+  renderCurrentPage();
 });
