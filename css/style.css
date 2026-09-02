@@ -226,14 +226,16 @@ a {
   object-fit: cover;
   object-position: center;
   transform: scale(1.02);
+  filter: saturate(1.38) contrast(1.16) brightness(1.04);
+  -webkit-filter: saturate(1.38) contrast(1.16) brightness(1.04);
   transition: transform 0.1s linear;
-  will-change: transform;
+  will-change: transform, filter;
 }
 
 .cinematic-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.75) 80%, #000000 100%);
+  background: radial-gradient(circle at 50% 45%, rgba(0, 60, 140, 0.1) 0%, rgba(0, 0, 0, 0.35) 60%, #000000 96%);
   pointer-events: none;
 }
 
@@ -1046,61 +1048,50 @@ a {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE BREAKPOINTS (DESKTOP, TABLET, MOBILE PHONES)
+   7. RESPONSIVE BREAKPOINTS (DESKTOP, TABLET PORTRAIT, MOBILE PHONES)
    ========================================================================== */
 @media (max-width: 1180px) {
-  .hero-main-title { font-size: 46px; }
+  .hero-main-title { font-size: 48px; }
   .apple-card-container { grid-template-columns: 300px 1fr; gap: 28px; padding: 32px; }
   .showcase-title { font-size: 34px; }
 }
 
-@media (max-width: 990px) {
+/* Tablet Portrait & Small Laptops (768px - 1024px) */
+@media (max-width: 1024px) {
   .nav-middle-title { display: none; }
-  .telemetry-hud-container { padding: 60px 18px 24px; }
-  .hero-main-title { font-size: 38px; }
+  .hero-main-title { font-size: 40px; }
   .hero-lead-text { font-size: 16px; }
   
-  .glass-card { padding: 28px 24px; border-radius: 20px; }
+  .glass-card { padding: 30px 24px; border-radius: 20px; }
   .chapter-title { font-size: 28px; }
-  .chapter-title.big-gold { font-size: 34px; }
   
-  .showcase-section { padding: 40px 0 60px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-  .apple-card-container { grid-template-columns: 1fr; padding: 28px 20px; gap: 28px; }
+  .showcase-section { padding: 48px 0 64px; border-top-left-radius: 28px; border-top-right-radius: 28px; }
+  .apple-card-container { grid-template-columns: 1fr; padding: 28px 22px; gap: 28px; }
   .showcase-title { font-size: 30px; }
-  .showcase-stage-card { padding: 16px 12px 14px; }
+  .showcase-stage-card { padding: 18px 14px 16px; }
   
-  .floating-tour-bar {
-    width: 90%;
-    max-width: 440px;
-    justify-content: space-between;
-  }
-  .tour-timeline { display: none; }
+  .liquid-glass-scroll { bottom: 28px; }
+  .liquid-glass-pill { padding: 10px 20px; }
 }
 
+/* Smartphones & Small Tablets (< 768px) */
 @media (max-width: 767px) {
   .hide-mobile { display: none !important; }
-  .telemetry-hud-container { padding: 54px 12px 20px; }
-  .hud-top-bar { gap: 6px; }
-  .hud-tele-pill { padding: 4px 8px; }
-  .hud-mono { font-size: 9.5px; }
 
-  .hero-main-title { font-size: 30px; }
-  .hero-lead-text { font-size: 14px; }
+  .hero-main-title { font-size: 32px; }
+  .hero-lead-text { font-size: 14.5px; }
   
-  .glass-card { padding: 20px 16px; border-radius: 18px; }
+  .glass-card { padding: 22px 18px; border-radius: 18px; }
   .chapter-title { font-size: 22px; }
-  .chapter-title.big-gold { font-size: 26px; }
-  .chapter-desc { font-size: 13.5px; }
+  .chapter-desc { font-size: 14px; }
   
   .feature-pills-grid { grid-template-columns: 1fr; }
   .rubric-metrics { grid-template-columns: 1fr 1fr; }
   
-  .floating-tour-bar {
-    bottom: 16px;
-    padding: 6px 10px;
-    gap: 8px;
-  }
-  .ch-jump { font-size: 9.5px; padding: 3px 6px; }
+  .liquid-glass-scroll { bottom: 22px; }
+  .liquid-glass-pill { padding: 9px 18px; gap: 10px; }
+  .liquid-text { font-size: 12.5px; }
+  .liquid-arrow-icon { width: 22px; height: 22px; }
   
   .showcase-wrapper { padding: 0 14px; }
   .apple-card-container { padding: 20px 14px; border-radius: 20px; }
@@ -1116,7 +1107,7 @@ a {
 
 @media (max-width: 479px) {
   .globalnav-list { display: none; }
-  .hero-main-title { font-size: 26px; }
+  .hero-main-title { font-size: 27px; }
   .hero-actions { flex-direction: column; width: 100%; }
   .btn-titanium-primary, .btn-titanium-ghost { width: 100%; justify-content: center; }
 }

@@ -143,12 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
         onUpdate: (self) => {
           const progress = self.progress;
           if (heroVideo && isVideoLoaded) {
-            heroVideo.currentTime = progress * videoDuration;
+            const targetTime = Math.min(Math.max(progress * videoDuration, 0), videoDuration);
+            if (Math.abs(heroVideo.currentTime - targetTime) > 0.04) {
+              heroVideo.currentTime = targetTime;
+            }
           }
-          // Fade out liquid glass scroll indicator when scrolling past 15%
+          // Fade out liquid glass scroll indicator when scrolling past 12%
           if (scrollIndicator) {
-            scrollIndicator.style.opacity = progress > 0.15 ? '0' : '1';
-            scrollIndicator.style.pointerEvents = progress > 0.15 ? 'none' : 'auto';
+            scrollIndicator.style.opacity = progress > 0.12 ? '0' : '1';
+            scrollIndicator.style.pointerEvents = progress > 0.12 ? 'none' : 'auto';
           }
         }
       }
@@ -173,11 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.fromTo("#ch4 .chapter-content", 
       { opacity: 0, y: 80 }, 
       { opacity: 1, y: 0, scrollTrigger: { trigger: "#ch4", start: "top 70%", end: "center center", scrub: 1 } }
-    );
-
-    gsap.fromTo("#ch5 .chapter-content", 
-      { opacity: 0, scale: 0.92 }, 
-      { opacity: 1, scale: 1, scrollTrigger: { trigger: "#ch5", start: "top 75%", end: "center center", scrub: 1 } }
     );
 
     // Navbar light mode switch on flipbook section
