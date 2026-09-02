@@ -94,12 +94,14 @@ a {
 .globalnav-logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--text-main);
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: -0.015em;
-  gap: 8px;
+  height: 44px;
   transition: opacity 0.2s ease;
+}
+
+.globalnav-logo svg {
+  display: block;
 }
 
 .globalnav-logo:hover {
