@@ -4,28 +4,50 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Configuration
-  const bookConfig = {
+  // Book Data Configuration
+  const bookData = {
     pelajar: {
       title: "Versi Pelajar (Modul Soalan Topikal Kertas 2)",
       subtitle: "69 Muka Surat • Format A4 Landscape • Susunan Topikal Tingkatan 4 & 5",
-      totalPages: 10
+      totalPages: 10,
+      pages: [
+        { src: "assets/pages/pelajar/page_1.jpg", alt: "Versi Pelajar M/S 1 (Muka Depan)" },
+        { src: "assets/pages/pelajar/page_2.jpg", alt: "Versi Pelajar M/S 2 (Agihan Markah & Panduan)" },
+        { src: "assets/pages/pelajar/page_3.jpg", alt: "Versi Pelajar M/S 3 (Bab 1 Pengukuran)" },
+        { src: "assets/pages/pelajar/page_4.jpg", alt: "Versi Pelajar M/S 4 (Bab 2 Daya & Gerakan I)" },
+        { src: "assets/pages/pelajar/page_5.jpg", alt: "Versi Pelajar M/S 5 (Soalan Struktur Percubaan SPM)" },
+        { src: "assets/pages/pelajar/page_6.jpg", alt: "Versi Pelajar M/S 6 (Soalan Bahagian B)" },
+        { src: "assets/pages/pelajar/page_7.jpg", alt: "Versi Pelajar M/S 7 (Soalan Bahagian C)" },
+        { src: "assets/pages/pelajar/page_8.jpg", alt: "Versi Pelajar M/S 8 (Bab 3 Kegravitian)" },
+        { src: "assets/pages/pelajar/page_9.jpg", alt: "Versi Pelajar M/S 9 (Bab 4 Haba)" },
+        { src: "assets/pages/pelajar/page_10.jpg", alt: "Versi Pelajar M/S 10 (Bab 5 Gelombang)" }
+      ]
     },
     guru: {
       title: "Versi Guru (Skema Analisis & Tip A+)",
       subtitle: "69 Muka Surat • Format A4 Landscape • Rubrik Pemarkahan Rasmi & Tip Pemeriksa",
-      totalPages: 10
+      totalPages: 10,
+      pages: [
+        { src: "assets/pages/guru/page_1.jpg", alt: "Versi Guru M/S 1 (Muka Depan)" },
+        { src: "assets/pages/guru/page_2.jpg", alt: "Versi Guru M/S 2 (Rubrik & Skema Pemarkahan)" },
+        { src: "assets/pages/guru/page_3.jpg", alt: "Versi Guru M/S 3 (Skema Jawapan Bab 1)" },
+        { src: "assets/pages/guru/page_4.jpg", alt: "Versi Guru M/S 4 (Skema Jawapan Bab 2)" },
+        { src: "assets/pages/guru/page_5.jpg", alt: "Versi Guru M/S 5 (Pemarkahan Langkah Demi Langkah)" },
+        { src: "assets/pages/guru/page_6.jpg", alt: "Versi Guru M/S 6 (Kata Kunci Wajib & Formula)" },
+        { src: "assets/pages/guru/page_7.jpg", alt: "Versi Guru M/S 7 (Skema Bahagian C & Tip Maksimum)" },
+        { src: "assets/pages/guru/page_8.jpg", alt: "Versi Guru M/S 8 (Skema Bab 3 Kegravitian)" },
+        { src: "assets/pages/guru/page_9.jpg", alt: "Versi Guru M/S 9 (Skema Bab 4 Haba)" },
+        { src: "assets/pages/guru/page_10.jpg", alt: "Versi Guru M/S 10 (Skema Bab 5 Gelombang)" }
+      ]
     }
   };
 
   let currentMode = 'pelajar';
-  let flipPelajar = null;
-  let flipGuru = null;
+  let pageFlipInstance = null;
   let soundEnabled = true;
 
   // DOM Elements
-  const containerPelajar = document.getElementById('bookPelajar');
-  const containerGuru = document.getElementById('bookGuru');
+  const wrapper = document.getElementById('flipbookWrapper');
   const pageIndicator = document.getElementById('pageIndicator');
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
@@ -100,10 +122,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function createFlipInstance(element, onFlipCallback) {
+  function updatePageIndicator(pageIndex) {
+    const total = bookData[currentMode].totalPages;
+    const current = Math.min(pageIndex + 1, total);
+    pageIndicator.textContent = `Halaman ${current} / ${total}`;
+    
+    if (prevBtn) prevBtn.style.opacity = pageIndex === 0 ? '0.4' : '1';
+    if (nextBtn) nextBtn.style.opacity = pageIndex >= total - 1 ? '0.4' : '1';
+  }
+
+  // Load Flipbook dynamically
+  function loadBook(mode) {
+    currentMode = mode;
+
+    if (typeof St === 'undefined' || !St.PageFlip) {
+      console.error('St.PageFlip library not ready');
+      return;
+    }
+
+    // 1. Destroy existing instance cleanly
+    if (pageFlipInstance) {
+      try {
+        pageFlipInstance.destroy();
+      } catch (e) {
+        console.warn('PageFlip destroy warning:', e);
+      }
+      pageFlipInstance = null;
+    }
+
+    // 2. Re-create fresh DOM container
+    wrapper.innerHTML = '<div id="flipbookBook" class="flipbook-instance"></div>';
+    const bookEl = document.getElementById('flipbookBook');
+
+    // 3. Render pages
+    const data = bookData[mode];
+    data.pages.forEach((p, idx) => {
+      const pageDiv = document.createElement('div');
+      pageDiv.className = 'page';
+      pageDiv.innerHTML = `<img src="${p.src}" alt="${p.alt}">`;
+      bookEl.appendChild(pageDiv);
+    });
+
+    // 4. Calculate dimensions
     const dims = getLandscapeDimensions();
 
-    const instance = new St.PageFlip(element, {
+    // 5. Initialize fresh StPageFlip
+    pageFlipInstance = new St.PageFlip(bookEl, {
       width: dims.width,
       height: dims.height,
       size: 'fixed',
@@ -113,128 +177,59 @@ document.addEventListener('DOMContentLoaded', () => {
       maxHeight: 580,
       maxShadowOpacity: 0.35,
       showCover: false,
+      usePortrait: true, // Force Single-Page A4 Landscape Mode
       mobileScrollSupport: true,
-      usePortrait: true, // Clean single A4 landscape sheet view
       startPage: 0,
       drawShadow: true,
-      flippingTime: 650,
+      flippingTime: 600,
+      useMouseEvents: true,
       swipeDistance: 30
     });
 
-    instance.loadFromHTML(element.querySelectorAll('.page'));
+    pageFlipInstance.loadFromHTML(bookEl.querySelectorAll('.page'));
 
-    instance.on('flip', (e) => {
+    pageFlipInstance.on('flip', (e) => {
       playPaperSound();
-      if (onFlipCallback) onFlipCallback(e.data);
+      updatePageIndicator(e.data);
     });
 
-    instance.on('changeState', (e) => {
+    pageFlipInstance.on('changeState', (e) => {
       if (e.data === 'flipping') {
         playPaperSound();
       }
     });
 
-    return instance;
-  }
-
-  function getActiveInstance() {
-    return currentMode === 'pelajar' ? flipPelajar : flipGuru;
-  }
-
-  function updatePageIndicator(pageIndex) {
-    const total = bookConfig[currentMode].totalPages;
-    const current = Math.min(pageIndex + 1, total);
-    pageIndicator.textContent = `Halaman ${current} / ${total}`;
-    
-    if (prevBtn) prevBtn.style.opacity = pageIndex === 0 ? '0.4' : '1';
-    if (nextBtn) nextBtn.style.opacity = pageIndex >= total - 1 ? '0.4' : '1';
-  }
-
-  // Initialize both books
-  function initAllBooks() {
-    if (typeof St === 'undefined' || !St.PageFlip) {
-      console.error('St.PageFlip library not ready');
-      return;
-    }
-
-    try {
-      if (flipPelajar) flipPelajar.destroy();
-      if (flipGuru) flipGuru.destroy();
-    } catch (e) {
-      console.warn(e);
-    }
-
-    // Initialize Pelajar
-    containerPelajar.style.display = 'block';
-    containerGuru.style.display = 'none';
-
-    flipPelajar = createFlipInstance(containerPelajar, (pageIndex) => {
-      if (currentMode === 'pelajar') updatePageIndicator(pageIndex);
-    });
-
-    // Initialize Guru
-    containerGuru.style.display = 'block';
-    flipGuru = createFlipInstance(containerGuru, (pageIndex) => {
-      if (currentMode === 'guru') updatePageIndicator(pageIndex);
-    });
-
-    // Set initial active state
-    if (currentMode === 'pelajar') {
-      containerPelajar.style.display = 'block';
-      containerGuru.style.display = 'none';
-      updatePageIndicator(flipPelajar.getCurrentPageIndex() || 0);
-    } else {
-      containerPelajar.style.display = 'none';
-      containerGuru.style.display = 'block';
-      updatePageIndicator(flipGuru.getCurrentPageIndex() || 0);
-    }
+    // 6. Update Header & Indicator
+    activeBookTitle.textContent = data.title;
+    activeBookDesc.textContent = data.subtitle;
+    updatePageIndicator(0);
   }
 
   // Segmented Switcher Handlers
   segPelajar.addEventListener('click', () => {
     if (currentMode === 'pelajar') return;
-    currentMode = 'pelajar';
     segPelajar.classList.add('active');
     segGuru.classList.remove('active');
-
-    activeBookTitle.textContent = bookConfig.pelajar.title;
-    activeBookDesc.textContent = bookConfig.pelajar.subtitle;
-
-    containerGuru.style.display = 'none';
-    containerPelajar.style.display = 'block';
-    if (flipPelajar) {
-      updatePageIndicator(flipPelajar.getCurrentPageIndex());
-    }
+    loadBook('pelajar');
   });
 
   segGuru.addEventListener('click', () => {
     if (currentMode === 'guru') return;
-    currentMode = 'guru';
     segGuru.classList.add('active');
     segPelajar.classList.remove('active');
-
-    activeBookTitle.textContent = bookConfig.guru.title;
-    activeBookDesc.textContent = bookConfig.guru.subtitle;
-
-    containerPelajar.style.display = 'none';
-    containerGuru.style.display = 'block';
-    if (flipGuru) {
-      updatePageIndicator(flipGuru.getCurrentPageIndex());
-    }
+    loadBook('guru');
   });
 
   // HUD Controls
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      const active = getActiveInstance();
-      if (active) active.flipPrev();
+      if (pageFlipInstance) pageFlipInstance.flipPrev();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      const active = getActiveInstance();
-      if (active) active.flipNext();
+      if (pageFlipInstance) pageFlipInstance.flipNext();
     });
   }
 
@@ -267,11 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      const active = getActiveInstance();
-      if (active) active.flipNext();
+      if (pageFlipInstance) pageFlipInstance.flipNext();
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      const active = getActiveInstance();
-      if (active) active.flipPrev();
+      if (pageFlipInstance) pageFlipInstance.flipPrev();
     }
   });
 
@@ -280,10 +273,10 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      initAllBooks();
+      loadBook(currentMode);
     }, 350);
   });
 
-  // Start initialization
-  initAllBooks();
+  // Initial Load
+  loadBook('pelajar');
 });

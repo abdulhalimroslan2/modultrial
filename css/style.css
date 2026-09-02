@@ -420,31 +420,43 @@ a {
 }
 
 .flipbook-instance {
-  box-shadow: var(--shadow-book);
-  border-radius: 6px;
-  background: #ffffff;
-  overflow: hidden;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* StPageFlip Engine Overrides for Pure A4 Landscape */
+.stf__parent {
+  margin: 0 auto !important;
+  box-shadow: var(--shadow-book) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.stf__block {
+  box-sizing: border-box !important;
 }
 
 .page {
-  background-color: #ffffff;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #ffffff !important;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.04) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
 }
 
 .page img {
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  display: block !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  pointer-events: none !important;
 }
 
 /* ==========================================================================
