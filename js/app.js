@@ -145,27 +145,34 @@ document.addEventListener('DOMContentLoaded', () => {
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
     heroVideo.playsInline = true;
+    heroVideo.autoplay = false;
+    heroVideo.loop = false;
     heroVideo.setAttribute('playsinline', '');
     heroVideo.setAttribute('webkit-playsinline', '');
+    heroVideo.pause();
 
     let primed = false;
     const primeVideo = () => {
       if (primed) return;
+      heroVideo.pause();
       heroVideo.muted = true;
       const playPromise = heroVideo.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
+          heroVideo.pause(); // Strictly paused immediately upon decoder awake
           primed = true;
           isVideoLoaded = true;
           videoDuration = heroVideo.duration || 20.0;
           initScrollTrigger();
-        }).catch(err => {
+        }).catch(() => {
+          heroVideo.pause();
           primed = true;
           isVideoLoaded = true;
           videoDuration = heroVideo.duration || 20.0;
           initScrollTrigger();
         });
       } else {
+        heroVideo.pause();
         primed = true;
         isVideoLoaded = true;
         videoDuration = heroVideo.duration || 20.0;
@@ -177,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroVideo.addEventListener('canplay', primeVideo, { once: true });
     window.addEventListener('touchstart', primeVideo, { once: true, passive: true });
     window.addEventListener('scroll', primeVideo, { once: true, passive: true });
+    window.addEventListener('wheel', primeVideo, { once: true, passive: true });
 
     if (heroVideo.readyState >= 2) {
       primeVideo();
@@ -188,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
     if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
-    // Pin & scrub timeline with auto-snap to center of each chapter
+    // Pin & scrub timeline with auto-snap to center of each chapter (Desktop, Laptop, PC, Mobile)
     gsap.timeline({
       scrollTrigger: {
         trigger: ".cinematic-scroll-container",
@@ -197,9 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
         scrub: 0.35,
         snap: {
           snapTo: [0, 0.333, 0.666, 1.0],
-          duration: { min: 0.25, max: 0.55 },
-          delay: 0.1,
-          ease: "power2.out"
+          duration: { min: 0.25, max: 0.6 },
+          delay: 0.05,
+          ease: "power2.out",
+          inertia: false
         },
         onUpdate: (self) => {
           const progress = self.progress;
