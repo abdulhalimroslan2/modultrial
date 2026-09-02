@@ -188,13 +188,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
     if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
-    // Pin & scrub timeline
+    // Pin & scrub timeline with auto-snap to center of each chapter
     gsap.timeline({
       scrollTrigger: {
         trigger: ".cinematic-scroll-container",
         start: "top top",
         end: "bottom bottom",
         scrub: 0.35,
+        snap: {
+          snapTo: [0, 0.333, 0.666, 1.0],
+          duration: { min: 0.25, max: 0.55 },
+          delay: 0.1,
+          ease: "power2.out"
+        },
         onUpdate: (self) => {
           const progress = self.progress;
           if (heroVideo && isVideoLoaded) {
