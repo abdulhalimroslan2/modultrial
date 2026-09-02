@@ -142,19 +142,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (heroVideo) {
-    heroVideo.pause(); // Ensure strictly no autoplay
-    heroVideo.addEventListener('loadedmetadata', () => {
-      isVideoLoaded = true;
-      videoDuration = heroVideo.duration || 20.0;
-      heroVideo.pause();
-      initScrollTrigger();
-    });
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.playsInline = true;
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('webkit-playsinline', '');
 
-    if (heroVideo.readyState >= 1) {
-      isVideoLoaded = true;
-      videoDuration = heroVideo.duration || 20.0;
-      heroVideo.pause();
-      initScrollTrigger();
+    let primed = false;
+    const primeVideo = () => {
+      if (primed) return;
+      heroVideo.muted = true;
+      const playPromise = heroVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          primed = true;
+          isVideoLoaded = true;
+          videoDuration = heroVideo.duration || 20.0;
+          initScrollTrigger();
+        }).catch(err => {
+          primed = true;
+          isVideoLoaded = true;
+          videoDuration = heroVideo.duration || 20.0;
+          initScrollTrigger();
+        });
+      } else {
+        primed = true;
+        isVideoLoaded = true;
+        videoDuration = heroVideo.duration || 20.0;
+        initScrollTrigger();
+      }
+    };
+
+    heroVideo.addEventListener('loadeddata', primeVideo, { once: true });
+    heroVideo.addEventListener('canplay', primeVideo, { once: true });
+    window.addEventListener('touchstart', primeVideo, { once: true, passive: true });
+    window.addEventListener('scroll', primeVideo, { once: true, passive: true });
+
+    if (heroVideo.readyState >= 2) {
+      primeVideo();
     }
   }
 
