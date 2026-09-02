@@ -227,19 +227,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch Swipe Support
+  // Smart Mobile & Tablet Touch / Swipe Support
   let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+
   bookContainer.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }
   }, { passive: true });
 
   bookContainer.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
-    if (diff < -40) {
-      flipNext(); // Swipe Left -> Next
-    } else if (diff > 40) {
-      flipPrev(); // Swipe Right -> Prev
+    if (e.changedTouches.length === 1) {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      const elapsedTime = Date.now() - touchStartTime;
+
+      // Only trigger if horizontal swipe is dominant and fast enough
+      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY) * 1.3 && elapsedTime < 600) {
+        if (diffX < 0) {
+          flipNext(); // Swipe Left -> Next
+        } else {
+          flipPrev(); // Swipe Right -> Prev
+        }
+      }
     }
   }, { passive: true });
 

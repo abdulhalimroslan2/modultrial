@@ -1,6 +1,6 @@
 /* ==========================================================================
    MODUL TRIAL SPM 2026 - APPLE MINIMALIST SHOWCASE THEME
-   Dedicated A4 Landscape 3D Flipbook Engine (1.414 : 1 Ratio)
+   Fully Optimized for Desktop, Tablet, and Mobile Phones
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -13,7 +13,7 @@
   --bg-page: #f5f5f7;
   --bg-white: #ffffff;
   --bg-card: #ffffff;
-  --bg-nav: rgba(255, 255, 255, 0.85);
+  --bg-nav: rgba(255, 255, 255, 0.88);
   
   --text-main: #1d1d1f;
   --text-muted: #6e6e73;
@@ -30,7 +30,7 @@
 
   --shadow-card: 0 4px 28px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.08);
-  --shadow-book: 0 16px 45px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-book: 0 14px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
 
   --radius-card: 28px;
   --radius-pill: 980px;
@@ -44,6 +44,7 @@
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -58,6 +59,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  touch-action: manipulation;
 }
 
 a {
@@ -85,7 +87,7 @@ a {
   max-width: 1080px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 22px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -112,7 +114,7 @@ a {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 28px;
+  gap: 24px;
 }
 
 .globalnav-item a {
@@ -133,10 +135,11 @@ a {
   color: #ffffff !important;
   font-size: 12px;
   font-weight: 500;
-  padding: 5px 14px;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px var(--apple-blue-glow);
+  white-space: nowrap;
 }
 
 .globalnav-cta:hover {
@@ -150,14 +153,14 @@ a {
 .showcase-wrapper {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 24px 60px;
+  padding: 36px 20px 60px;
   width: 100%;
 }
 
 .showcase-header {
   text-align: left;
   max-width: 100%;
-  margin: 0 0 24px 4px;
+  margin: 0 0 20px 4px;
 }
 
 .showcase-title {
@@ -177,10 +180,10 @@ a {
   border-radius: var(--radius-card);
   border: 1px solid var(--border-card);
   box-shadow: var(--shadow-card);
-  padding: 40px;
+  padding: 38px;
   display: grid;
   grid-template-columns: 340px 1fr;
-  gap: 40px;
+  gap: 36px;
   align-items: center;
   position: relative;
   overflow: hidden;
@@ -206,7 +209,7 @@ a {
 
 .accordion-item {
   border-bottom: 1px solid var(--border-subtle);
-  padding: 20px 0;
+  padding: 18px 0;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -220,6 +223,7 @@ a {
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  min-height: 38px;
 }
 
 .accordion-title {
@@ -245,6 +249,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .accordion-item.active .accordion-icon {
@@ -260,9 +265,9 @@ a {
 }
 
 .accordion-item.active .accordion-body {
-  max-height: 220px;
+  max-height: 240px;
   opacity: 1;
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 .accordion-text {
@@ -286,7 +291,7 @@ a {
 
 /* Sidebar Bottom CTAs */
 .sidebar-actions {
-  margin-top: 26px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -295,7 +300,7 @@ a {
 .btn-apple-primary {
   background: var(--apple-blue);
   color: #ffffff;
-  padding: 12px 20px;
+  padding: 13px 20px;
   font-size: 14px;
   font-weight: 500;
   border-radius: var(--radius-pill);
@@ -306,6 +311,7 @@ a {
   transition: all 0.25s ease;
   box-shadow: 0 4px 12px var(--apple-blue-glow);
   text-align: center;
+  min-height: 44px;
 }
 
 .btn-apple-primary:hover {
@@ -317,7 +323,7 @@ a {
 .btn-apple-secondary {
   background: #f5f5f7;
   color: var(--text-main);
-  padding: 11px 20px;
+  padding: 12px 20px;
   font-size: 14px;
   font-weight: 500;
   border-radius: var(--radius-pill);
@@ -328,6 +334,7 @@ a {
   transition: all 0.25s ease;
   border: 1px solid var(--border-subtle);
   text-align: center;
+  min-height: 44px;
 }
 
 .btn-apple-secondary:hover {
@@ -342,14 +349,14 @@ a {
   background: radial-gradient(circle at 50% 50%, #fafafa 0%, #ebebef 100%);
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 24px 16px 20px;
+  padding: 20px 16px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  min-height: 520px;
+  width: 100%;
 }
 
 /* The A4 Landscape Book Wrapper (Aspect ratio exactly 1.414 : 1) */
@@ -364,6 +371,7 @@ a {
   align-items: center;
   margin: 0 auto;
   user-select: none;
+  touch-action: pan-y;
 }
 
 .a4-landscape-book {
@@ -374,11 +382,8 @@ a {
   border-radius: 8px;
   background: #ffffff;
   overflow: hidden;
-  cursor: grab;
-}
-
-.a4-landscape-book:active {
-  cursor: grabbing;
+  cursor: pointer;
+  touch-action: pan-y;
 }
 
 /* Current & Next Page Layers */
@@ -419,11 +424,11 @@ a {
 }
 
 .flipping-sheet.flip-forward {
-  animation: flipForwardAnim 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: flipForwardAnim 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .flipping-sheet.flip-backward {
-  animation: flipBackwardAnim 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: flipBackwardAnim 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes flipForwardAnim {
@@ -459,16 +464,16 @@ a {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.08) 50%, rgba(255, 255, 255, 0.8) 100%);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.08) 50%, rgba(255, 255, 255, 0.85) 100%);
   border-bottom-right-radius: 8px;
   pointer-events: none;
   transition: transform 0.2s ease;
 }
 
 .a4-landscape-book:hover .corner-hint {
-  transform: scale(1.15);
+  transform: scale(1.18);
 }
 
 /* Minimalist HUD Controls */
@@ -476,17 +481,18 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 16px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .hud-btn {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -494,6 +500,7 @@ a {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
 }
 
 .hud-btn:hover {
@@ -503,18 +510,18 @@ a {
 }
 
 .hud-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 .hud-indicator {
   background: rgba(0, 0, 0, 0.06);
-  padding: 7px 16px;
+  padding: 8px 16px;
   border-radius: var(--radius-pill);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-main);
   letter-spacing: -0.01em;
-  min-width: 120px;
+  min-width: 110px;
   text-align: center;
 }
 
@@ -551,18 +558,119 @@ a {
   text-decoration: underline;
 }
 
-/* Responsive */
-@media (max-width: 990px) {
+/* ==========================================================================
+   6. RESPONSIVE BREAKPOINTS (DESKTOP, TABLET, MOBILE PHONES)
+   ========================================================================== */
+
+/* Tablet (iPad Landscape / Medium Desktop: 991px to 1180px) */
+@media (max-width: 1180px) {
   .apple-card-container {
-    grid-template-columns: 1fr;
-    padding: 30px 20px;
-    gap: 32px;
-  }
-  .showcase-stage-card {
-    min-height: auto;
-    padding: 16px 8px;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    padding: 32px;
   }
   .showcase-title {
-    font-size: 32px;
+    font-size: 34px;
+  }
+}
+
+/* Tablet Portrait & Small Tablets (768px to 990px) */
+@media (max-width: 990px) {
+  .showcase-wrapper {
+    padding: 24px 16px 48px;
+  }
+  .apple-card-container {
+    grid-template-columns: 1fr;
+    padding: 28px 20px;
+    gap: 28px;
+    border-radius: 24px;
+  }
+  .showcase-header {
+    margin: 0 0 16px 2px;
+  }
+  .showcase-title {
+    font-size: 30px;
+  }
+  .showcase-stage-card {
+    padding: 16px 12px 14px;
+    border-radius: 16px;
+  }
+  .sidebar-actions {
+    margin-top: 20px;
+  }
+}
+
+/* Mobile Phones (480px to 767px) */
+@media (max-width: 767px) {
+  .globalnav-list {
+    gap: 16px;
+  }
+  .globalnav-item a {
+    font-size: 11px;
+  }
+  .showcase-wrapper {
+    padding: 20px 12px 40px;
+  }
+  .showcase-title {
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+  .apple-card-container {
+    padding: 20px 14px;
+    border-radius: 20px;
+    gap: 24px;
+  }
+  .accordion-title {
+    font-size: 17px;
+  }
+  .accordion-text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .showcase-stage-card {
+    padding: 10px 6px 12px;
+    border-radius: 14px;
+  }
+  .stage-hud {
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .hud-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .hud-indicator {
+    padding: 6px 12px;
+    font-size: 11px;
+    min-width: 95px;
+  }
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  .footer-links {
+    justify-content: center;
+  }
+}
+
+/* Small Mobile Phones (320px to 479px, e.g. iPhone SE) */
+@media (max-width: 479px) {
+  .globalnav-content {
+    padding: 0 14px;
+  }
+  .globalnav-list {
+    display: none; /* Keep clean on ultra-small screens */
+  }
+  .showcase-title {
+    font-size: 23px;
+  }
+  .apple-card-container {
+    padding: 16px 12px;
+    border-radius: 18px;
+  }
+  .btn-apple-primary, .btn-apple-secondary {
+    font-size: 13px;
+    padding: 11px 14px;
   }
 }
