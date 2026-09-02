@@ -109,21 +109,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 3. 60FPS KEYFRAME-4 VIDEO SCRUBBING & SCROLLTRIGGER ENGINE
+  // 3. 60FPS KEYFRAME-4 VIDEO SCRUBBING & SCROLLTRIGGER ENGINE (ZERO LAG)
   // ==========================================================================
   let isVideoLoaded = false;
   let videoDuration = 20.0;
+  let isSeeking = false;
+  let targetSeekTime = 0;
+
+  function renderVideoFrame() {
+    if (heroVideo && isVideoLoaded) {
+      if (Math.abs(heroVideo.currentTime - targetSeekTime) > 0.03) {
+        try {
+          if ('fastSeek' in heroVideo) {
+            heroVideo.fastSeek(targetSeekTime);
+          } else {
+            heroVideo.currentTime = targetSeekTime;
+          }
+        } catch (e) {
+          heroVideo.currentTime = targetSeekTime;
+        }
+      }
+    }
+    isSeeking = false;
+  }
+
+  function seekVideo(targetTime) {
+    targetSeekTime = targetTime;
+    if (!isSeeking) {
+      isSeeking = true;
+      requestAnimationFrame(renderVideoFrame);
+    }
+  }
 
   if (heroVideo) {
+    heroVideo.pause(); // Ensure strictly no autoplay
     heroVideo.addEventListener('loadedmetadata', () => {
       isVideoLoaded = true;
       videoDuration = heroVideo.duration || 20.0;
+      heroVideo.pause();
       initScrollTrigger();
     });
 
     if (heroVideo.readyState >= 1) {
       isVideoLoaded = true;
       videoDuration = heroVideo.duration || 20.0;
+      heroVideo.pause();
       initScrollTrigger();
     }
   }
@@ -139,14 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger: ".cinematic-scroll-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.5,
+        scrub: 0.35,
         onUpdate: (self) => {
           const progress = self.progress;
           if (heroVideo && isVideoLoaded) {
             const targetTime = Math.min(Math.max(progress * videoDuration, 0), videoDuration);
-            if (Math.abs(heroVideo.currentTime - targetTime) > 0.04) {
-              heroVideo.currentTime = targetTime;
-            }
+            seekVideo(targetTime);
           }
           // Fade out liquid glass scroll indicator when scrolling past 12%
           if (scrollIndicator) {
@@ -157,24 +185,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Chapter Content Fade & Parallax Animations
-    gsap.fromTo("#ch1 .apple-editorial-content", 
+    // Chapter Content Fade & Parallax Animations (Center-Left Frosted Glass Cards)
+    gsap.fromTo("#ch1 .apple-editorial-card", 
       { opacity: 1, y: 0 }, 
-      { opacity: 0, y: -60, scrollTrigger: { trigger: "#ch1", start: "top top", end: "bottom top", scrub: 1 } }
+      { opacity: 0, y: -50, scrollTrigger: { trigger: "#ch1", start: "top top", end: "bottom top", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch2 .apple-editorial-content", 
-      { opacity: 0, y: 80, scale: 0.96 }, 
+    gsap.fromTo("#ch2 .apple-editorial-card", 
+      { opacity: 0, y: 70, scale: 0.96 }, 
       { opacity: 1, y: 0, scale: 1, scrollTrigger: { trigger: "#ch2", start: "top 70%", end: "center center", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch3 .apple-editorial-content", 
-      { opacity: 0, y: 80 }, 
+    gsap.fromTo("#ch3 .apple-editorial-card", 
+      { opacity: 0, y: 70 }, 
       { opacity: 1, y: 0, scrollTrigger: { trigger: "#ch3", start: "top 70%", end: "center center", scrub: 1 } }
     );
 
-    gsap.fromTo("#ch4 .apple-editorial-content", 
-      { opacity: 0, y: 80 }, 
+    gsap.fromTo("#ch4 .apple-editorial-card", 
+      { opacity: 0, y: 70 }, 
       { opacity: 1, y: 0, scrollTrigger: { trigger: "#ch4", start: "top 70%", end: "center center", scrub: 1 } }
     );
 
