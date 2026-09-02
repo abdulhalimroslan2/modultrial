@@ -1,41 +1,42 @@
 /**
- * MODUL TRIAL SPM 2026 - PURE A4 LANDSCAPE 3D FLIPBOOK ENGINE
+ * SPM 2026 PHYSICS MODULE - PURE A4 LANDSCAPE 3D FLIPBOOK ENGINE
  * Dedicated 1.414:1 Landscape Reader with Smooth 3D Page Turn & Audio
+ * Malaysian English Localization
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   // Configuration
   const bookData = {
     pelajar: {
-      title: "Versi Pelajar (Modul Soalan Topikal)",
+      title: "Student Version (Topical Question Module)",
       totalPages: 10,
       pages: [
-        { src: "assets/pages/pelajar/page_1.jpg", alt: "Versi Pelajar M/S 1 (Muka Depan)" },
-        { src: "assets/pages/pelajar/page_2.jpg", alt: "Versi Pelajar M/S 2 (Agihan Markah & Panduan)" },
-        { src: "assets/pages/pelajar/page_3.jpg", alt: "Versi Pelajar M/S 3 (Bab 1 Pengukuran)" },
-        { src: "assets/pages/pelajar/page_4.jpg", alt: "Versi Pelajar M/S 4 (Bab 2 Daya & Gerakan I)" },
-        { src: "assets/pages/pelajar/page_5.jpg", alt: "Versi Pelajar M/S 5 (Soalan Struktur Percubaan SPM)" },
-        { src: "assets/pages/pelajar/page_6.jpg", alt: "Versi Pelajar M/S 6 (Soalan Bahagian B)" },
-        { src: "assets/pages/pelajar/page_7.jpg", alt: "Versi Pelajar M/S 7 (Soalan Bahagian C)" },
-        { src: "assets/pages/pelajar/page_8.jpg", alt: "Versi Pelajar M/S 8 (Bab 3 Kegravitian)" },
-        { src: "assets/pages/pelajar/page_9.jpg", alt: "Versi Pelajar M/S 9 (Bab 4 Haba)" },
-        { src: "assets/pages/pelajar/page_10.jpg", alt: "Versi Pelajar M/S 10 (Bab 5 Gelombang)" }
+        { src: "assets/pages/pelajar/page_1.jpg", alt: "Student Version Page 1 (Cover Page)" },
+        { src: "assets/pages/pelajar/page_2.jpg", alt: "Student Version Page 2 (Marks Distribution & Guide)" },
+        { src: "assets/pages/pelajar/page_3.jpg", alt: "Student Version Page 3 (Chapter 1 Measurement)" },
+        { src: "assets/pages/pelajar/page_4.jpg", alt: "Student Version Page 4 (Chapter 2 Force & Motion I)" },
+        { src: "assets/pages/pelajar/page_5.jpg", alt: "Student Version Page 5 (Structured Questions SPM Trial)" },
+        { src: "assets/pages/pelajar/page_6.jpg", alt: "Student Version Page 6 (Section B Questions)" },
+        { src: "assets/pages/pelajar/page_7.jpg", alt: "Student Version Page 7 (Section C Questions)" },
+        { src: "assets/pages/pelajar/page_8.jpg", alt: "Student Version Page 8 (Chapter 3 Gravitation)" },
+        { src: "assets/pages/pelajar/page_9.jpg", alt: "Student Version Page 9 (Chapter 4 Heat)" },
+        { src: "assets/pages/pelajar/page_10.jpg", alt: "Student Version Page 10 (Chapter 5 Waves)" }
       ]
     },
     guru: {
-      title: "Versi Guru (Skema Analisis & Tip A+)",
+      title: "Teacher Version (Analytical Scheme & A+ Tips)",
       totalPages: 10,
       pages: [
-        { src: "assets/pages/guru/page_1.jpg", alt: "Versi Guru M/S 1 (Muka Depan)" },
-        { src: "assets/pages/guru/page_2.jpg", alt: "Versi Guru M/S 2 (Rubrik & Skema Pemarkahan)" },
-        { src: "assets/pages/guru/page_3.jpg", alt: "Versi Guru M/S 3 (Skema Jawapan Bab 1)" },
-        { src: "assets/pages/guru/page_4.jpg", alt: "Versi Guru M/S 4 (Skema Jawapan Bab 2)" },
-        { src: "assets/pages/guru/page_5.jpg", alt: "Versi Guru M/S 5 (Pemarkahan Langkah Demi Langkah)" },
-        { src: "assets/pages/guru/page_6.jpg", alt: "Versi Guru M/S 6 (Kata Kunci Wajib & Formula)" },
-        { src: "assets/pages/guru/page_7.jpg", alt: "Versi Guru M/S 7 (Skema Bahagian C & Tip Maksimum)" },
-        { src: "assets/pages/guru/page_8.jpg", alt: "Versi Guru M/S 8 (Skema Bab 3 Kegravitian)" },
-        { src: "assets/pages/guru/page_9.jpg", alt: "Versi Guru M/S 9 (Skema Bab 4 Haba)" },
-        { src: "assets/pages/guru/page_10.jpg", alt: "Versi Guru M/S 10 (Skema Bab 5 Gelombang)" }
+        { src: "assets/pages/guru/page_1.jpg", alt: "Teacher Version Page 1 (Cover Page)" },
+        { src: "assets/pages/guru/page_2.jpg", alt: "Teacher Version Page 2 (Marking Rubrics & Scheme)" },
+        { src: "assets/pages/guru/page_3.jpg", alt: "Teacher Version Page 3 (Answer Scheme Chapter 1)" },
+        { src: "assets/pages/guru/page_4.jpg", alt: "Teacher Version Page 4 (Answer Scheme Chapter 2)" },
+        { src: "assets/pages/guru/page_5.jpg", alt: "Teacher Version Page 5 (Step-by-Step Mark Breakdown)" },
+        { src: "assets/pages/guru/page_6.jpg", alt: "Teacher Version Page 6 (Compulsory Keywords & Formulas)" },
+        { src: "assets/pages/guru/page_7.jpg", alt: "Teacher Version Page 7 (Section C Scheme & Max Mark Tips)" },
+        { src: "assets/pages/guru/page_8.jpg", alt: "Teacher Version Page 8 (Answer Scheme Chapter 3 Gravitation)" },
+        { src: "assets/pages/guru/page_9.jpg", alt: "Teacher Version Page 9 (Answer Scheme Chapter 4 Heat)" },
+        { src: "assets/pages/guru/page_10.jpg", alt: "Teacher Version Page 10 (Answer Scheme Chapter 5 Waves)" }
       ]
     }
   };
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateIndicator() {
     const total = getActivePages().length;
-    pageIndicator.textContent = `Halaman ${currentPageIndex + 1} / ${total}`;
+    pageIndicator.textContent = `Page ${currentPageIndex + 1} / ${total}`;
 
     if (prevBtn) prevBtn.style.opacity = currentPageIndex === 0 ? '0.4' : '1';
     if (nextBtn) nextBtn.style.opacity = currentPageIndex >= total - 1 ? '0.4' : '1';
@@ -190,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 580);
   }
 
-  // Switch Mode (Versi Pelajar vs Versi Guru)
+  // Switch Mode (Student vs Teacher Version)
   function switchMode(newMode) {
     if (currentMode === newMode && !isFlipping) return;
     currentMode = newMode;
@@ -268,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       soundEnabled = !soundEnabled;
       soundBtn.style.color = soundEnabled ? 'var(--apple-blue)' : 'var(--text-tertiary)';
-      soundBtn.title = soundEnabled ? 'Bunyi: Hidup' : 'Bunyi: Senyap';
+      soundBtn.title = soundEnabled ? 'Page Turn Sound: On' : 'Page Turn Sound: Muted';
     });
   }
 
