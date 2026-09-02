@@ -67,64 +67,19 @@
           <source src="assets/media/master_cinematic_journey.mp4" type="video/mp4">
         </video>
         <div class="cinematic-vignette"></div>
-        <div class="cinematic-grid-overlay"></div>
-        <div class="laser-scanner-beam" id="laserBeam"></div>
       </div>
 
-      <!-- Real-time Robotic Telemetry HUD (Apple Pro Interface) -->
-      <div class="telemetry-hud-container" id="telemetryHud">
-        <div class="hud-top-bar">
-          <div class="hud-tele-pill">
-            <span class="hud-live-dot"></span>
-            <span class="hud-mono" id="recStatus">LIVE SCAN 60FPS</span>
-          </div>
-          <div class="hud-tele-pill">
-            <span class="hud-label">COORDS:</span>
-            <span class="hud-mono" id="armCoords">[X: 142.8mm, Y: 89.4mm, Z: 320.0mm]</span>
-          </div>
-          <div class="hud-tele-pill hide-mobile">
-            <span class="hud-label">OPTICAL:</span>
-            <span class="hud-mono" id="opticalFidelity">99.8% FIDELITY</span>
-          </div>
-          <div class="hud-tele-pill">
-            <span class="hud-label">TIMECODE:</span>
-            <span class="hud-mono" id="timecodeDisplay">00:00:00</span>
+      <!-- Liquid Glass Bouncing Scroll Indicator (Apple Clean Minimalist) -->
+      <a href="#flipbookSection" class="liquid-glass-scroll" id="scrollIndicator" aria-label="Scroll to preview PDF">
+        <div class="liquid-glass-pill">
+          <span class="liquid-text">Scroll to preview PDF</span>
+          <div class="liquid-arrow-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
           </div>
         </div>
-
-        <div class="hud-corner-bracket top-left"></div>
-        <div class="hud-corner-bracket top-right"></div>
-        <div class="hud-corner-bracket bottom-left"></div>
-        <div class="hud-corner-bracket bottom-right"></div>
-      </div>
-
-      <!-- Floating Journey Navigation & Sound Synth Controller -->
-      <div class="floating-tour-bar" id="tourBar">
-        <button class="tour-btn" id="playPauseBtn" title="Play / Pause Auto Tour" aria-label="Play / Pause">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" id="playIcon">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-        </button>
-
-        <div class="tour-timeline">
-          <div class="tour-progress-bar" id="tourProgress"></div>
-        </div>
-
-        <div class="tour-chapters-nav">
-          <button class="ch-jump active" data-progress="0.05">01 Scan</button>
-          <button class="ch-jump" data-progress="0.25">02 Matrix</button>
-          <button class="ch-jump" data-progress="0.50">03 Rubric</button>
-          <button class="ch-jump" data-progress="0.75">04 Format</button>
-          <button class="ch-jump" data-progress="0.95">05 Climax</button>
-        </div>
-
-        <button class="tour-btn sound-toggle-btn" id="ambientSoundBtn" title="Toggle Ambient Audio" aria-label="Ambient Sound">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-          </svg>
-        </button>
-      </div>
+      </a>
 
     </div>
 

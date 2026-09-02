@@ -1,6 +1,6 @@
 /**
  * SPM 2026 PHYSICS MODULE - MASTER CINEMATIC WEB ENGINE
- * Autonomous Pipeline: 60FPS Keyframe-4 Video Scrubbing + GSAP ScrollTrigger + 3D A4 Flipbook
+ * Autonomous Pipeline: 60FPS Keyframe-4 Video Scrubbing + GSAP ScrollTrigger + Liquid Glass Indicator + 3D Flipbook
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,20 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPageIndex = 0;
   let isFlipping = false;
   let soundEnabled = true;
-  let ambientAudioPlaying = false;
 
-  // Video & Telemetry State
+  // Video & Nav State
   const heroVideo = document.getElementById('heroVideo');
   const scrollContainer = document.getElementById('scrollContainer');
   const globalNav = document.getElementById('globalNav');
-  const tourProgress = document.getElementById('tourProgress');
-  const timecodeDisplay = document.getElementById('timecodeDisplay');
-  const armCoords = document.getElementById('armCoords');
-  const opticalFidelity = document.getElementById('opticalFidelity');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const playIcon = document.getElementById('playIcon');
-  const chJumpBtns = document.querySelectorAll('.ch-jump');
-  const ambientSoundBtn = document.getElementById('ambientSoundBtn');
+  const scrollIndicator = document.getElementById('scrollIndicator');
 
   // Flipbook DOM
   const bookContainer = document.getElementById('landscapeBook');
@@ -73,11 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const accordionItems = document.querySelectorAll('.accordion-item');
 
   // ==========================================================================
-  // 2. WEB AUDIO SYNTHESIZER (CRISP PAPER FLIP & AMBIENT TECH SOUND)
+  // 2. WEB AUDIO SYNTHESIZER (CRISP PAPER FLIP)
   // ==========================================================================
   let audioCtx = null;
-  let ambientOsc = null;
-  let ambientGain = null;
 
   function initAudioContext() {
     if (!audioCtx) {
@@ -118,55 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  function toggleAmbientSound() {
-    initAudioContext();
-    if (!ambientAudioPlaying) {
-      try {
-        ambientOsc = audioCtx.createOscillator();
-        const subOsc = audioCtx.createOscillator();
-        ambientGain = audioCtx.createGain();
-
-        ambientOsc.type = 'sine';
-        ambientOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // 55Hz deep hum
-
-        subOsc.type = 'triangle';
-        subOsc.frequency.setValueAtTime(110, audioCtx.currentTime); // 110Hz harmonic
-
-        ambientGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        ambientGain.gain.exponentialRampToValueAtTime(0.04, audioCtx.currentTime + 1.5);
-
-        ambientOsc.connect(ambientGain);
-        subOsc.connect(ambientGain);
-        ambientGain.connect(audioCtx.destination);
-
-        ambientOsc.start();
-        subOsc.start();
-        ambientAudioPlaying = true;
-        if (ambientSoundBtn) ambientSoundBtn.style.color = 'var(--laser-cyan)';
-      } catch (e) {}
-    } else {
-      if (ambientGain) {
-        ambientGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
-        setTimeout(() => {
-          if (ambientOsc) ambientOsc.stop();
-          ambientAudioPlaying = false;
-        }, 500);
-      }
-      if (ambientSoundBtn) ambientSoundBtn.style.color = 'var(--text-tertiary-dark)';
-    }
-  }
-
-  if (ambientSoundBtn) {
-    ambientSoundBtn.addEventListener('click', toggleAmbientSound);
-  }
-
   // ==========================================================================
-  // 3. 60FPS KEYFRAME-4 VIDEO SCRUBBING & SCROLLTRIGGER TIMELINE
+  // 3. 60FPS KEYFRAME-4 VIDEO SCRUBBING & SCROLLTRIGGER ENGINE
   // ==========================================================================
   let isVideoLoaded = false;
   let videoDuration = 20.0;
-  let isAutoTourPlaying = false;
-  let autoTourTween = null;
 
   if (heroVideo) {
     heroVideo.addEventListener('loadedmetadata', () => {
@@ -175,43 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
       initScrollTrigger();
     });
 
-    // Fallback if metadata already loaded
     if (heroVideo.readyState >= 1) {
       isVideoLoaded = true;
       videoDuration = heroVideo.duration || 20.0;
       initScrollTrigger();
     }
-  }
-
-  function updateTelemetry(progress) {
-    // 1. Timecode
-    const curSec = (progress * videoDuration);
-    const mins = String(Math.floor(curSec / 60)).padStart(2, '0');
-    const secs = String(Math.floor(curSec % 60)).padStart(2, '0');
-    const ms = String(Math.floor((curSec % 1) * 100)).padStart(2, '0');
-    if (timecodeDisplay) timecodeDisplay.textContent = `00:${mins}:${secs}.${ms}`;
-
-    // 2. Robotic Arm Coordinates Simulation
-    const xCoord = (120 + Math.sin(progress * Math.PI * 4) * 85).toFixed(1);
-    const yCoord = (80 + Math.cos(progress * Math.PI * 3) * 65).toFixed(1);
-    const zCoord = (320 - progress * 140).toFixed(1);
-    if (armCoords) armCoords.textContent = `[X: ${xCoord}mm, Y: ${yCoord}mm, Z: ${zCoord}mm]`;
-
-    // 3. Optical Fidelity
-    const fidelity = (99.2 + Math.sin(progress * 10) * 0.7).toFixed(1);
-    if (opticalFidelity) opticalFidelity.textContent = `${fidelity}% FIDELITY`;
-
-    // 4. Tour progress bar
-    if (tourProgress) tourProgress.style.width = `${progress * 100}%`;
-
-    // 5. Active Chapter highlight
-    chJumpBtns.forEach(btn => {
-      const btnProg = parseFloat(btn.getAttribute('data-progress'));
-      if (Math.abs(progress - btnProg) < 0.15) {
-        chJumpBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
-    });
   }
 
   function initScrollTrigger() {
@@ -220,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
     // Pin & scrub timeline
-    const tl = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
         trigger: ".cinematic-scroll-container",
         start: "top top",
@@ -228,15 +142,19 @@ document.addEventListener('DOMContentLoaded', () => {
         scrub: 0.5,
         onUpdate: (self) => {
           const progress = self.progress;
-          if (heroVideo && isVideoLoaded && !isAutoTourPlaying) {
+          if (heroVideo && isVideoLoaded) {
             heroVideo.currentTime = progress * videoDuration;
           }
-          updateTelemetry(progress);
+          // Fade out liquid glass scroll indicator when scrolling past 15%
+          if (scrollIndicator) {
+            scrollIndicator.style.opacity = progress > 0.15 ? '0' : '1';
+            scrollIndicator.style.pointerEvents = progress > 0.15 ? 'none' : 'auto';
+          }
         }
       }
     });
 
-    // Chapter Animations
+    // Chapter Content Fade & Parallax Animations
     gsap.fromTo("#ch1 .chapter-content", 
       { opacity: 1, y: 0 }, 
       { opacity: 0, y: -60, scrollTrigger: { trigger: "#ch1", start: "top top", end: "bottom top", scrub: 1 } }
@@ -266,76 +184,24 @@ document.addEventListener('DOMContentLoaded', () => {
     ScrollTrigger.create({
       trigger: "#flipbookSection",
       start: "top 80px",
-      onEnter: () => globalNav.classList.add('scrolled-light'),
-      onLeaveBack: () => globalNav.classList.remove('scrolled-light')
+      onEnter: () => globalNav && globalNav.classList.add('scrolled-light'),
+      onLeaveBack: () => globalNav && globalNav.classList.remove('scrolled-light')
     });
   }
 
-  // ==========================================================================
-  // 4. AUTO TOUR CONTROLLER & CHAPTER JUMPS
-  // ==========================================================================
-  function toggleAutoTour() {
-    if (!isAutoTourPlaying) {
-      isAutoTourPlaying = true;
-      if (playIcon) {
-        playIcon.innerHTML = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+  // Smooth scroll handler for Liquid Glass Scroll button
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.getElementById('flipbookSection');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
       }
-      
-      const maxScroll = scrollContainer.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      const remainingDistance = maxScroll - currentScroll;
-      const duration = Math.max(5, (remainingDistance / maxScroll) * 20);
-
-      autoTourTween = gsap.to(window, {
-        scrollTo: maxScroll,
-        duration: duration,
-        ease: "none",
-        onUpdate: () => {
-          if (heroVideo && isVideoLoaded) {
-            const prog = window.scrollY / maxScroll;
-            heroVideo.currentTime = prog * videoDuration;
-            updateTelemetry(prog);
-          }
-        },
-        onComplete: () => {
-          stopAutoTour();
-        }
-      });
-    } else {
-      stopAutoTour();
-    }
-  }
-
-  function stopAutoTour() {
-    isAutoTourPlaying = false;
-    if (autoTourTween) autoTourTween.kill();
-    if (playIcon) {
-      playIcon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"/>`;
-    }
-  }
-
-  if (playPauseBtn) {
-    playPauseBtn.addEventListener('click', toggleAutoTour);
-  }
-
-  // Chapter Jump Buttons
-  chJumpBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      stopAutoTour();
-      const progress = parseFloat(btn.getAttribute('data-progress'));
-      const maxScroll = scrollContainer.scrollHeight - window.innerHeight;
-      const targetScroll = progress * maxScroll;
-      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     });
-  });
-
-  // Stop auto tour on manual user scroll wheel / touch
-  window.addEventListener('wheel', () => { if (isAutoTourPlaying) stopAutoTour(); }, { passive: true });
-  window.addEventListener('touchmove', () => { if (isAutoTourPlaying) stopAutoTour(); }, { passive: true });
+  }
 
   // ==========================================================================
-  // 5. INTERACTIVE 3D A4 LANDSCAPE FLIPBOOK ENGINE
+  // 4. INTERACTIVE 3D A4 LANDSCAPE FLIPBOOK ENGINE
   // ==========================================================================
   function getActivePages() {
     return bookData[currentMode].pages;
@@ -461,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Touch / Swipe
+    // Smart Mobile & Tablet Touch Swipe
     let touchStartX = 0;
     let touchStartY = 0;
     let touchStartTime = 0;

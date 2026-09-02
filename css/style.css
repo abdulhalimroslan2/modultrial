@@ -237,220 +237,107 @@ a {
   pointer-events: none;
 }
 
-.cinematic-grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-/* Optical Laser Scanner Beam */
-.laser-scanner-beam {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--laser-cyan) 50%, transparent 100%);
-  box-shadow: 0 0 16px var(--laser-cyan), 0 0 32px var(--laser-cyan);
-  opacity: 0.85;
-  pointer-events: none;
-  animation: laserScanAnim 4s ease-in-out infinite alternate;
-  z-index: 2;
-}
-
-@keyframes laserScanAnim {
-  0% { top: 8%; opacity: 0.4; }
-  50% { opacity: 0.95; }
-  100% { top: 92%; opacity: 0.4; }
-}
-
 /* ==========================================================================
-   3. ROBOTIC TELEMETRY HUD (APPLE PRO INTERFACE)
+   3. LIQUID GLASS BOUNCING SCROLL INDICATOR (APPLE CLEAN MINIMALIST)
    ========================================================================== */
-.telemetry-hud-container {
+.liquid-glass-scroll {
   position: absolute;
-  inset: 0;
-  padding: 68px 32px 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  pointer-events: none;
-  z-index: 10;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  animation: liquidGlassBounce 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.hud-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
-}
-
-.hud-tele-pill {
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 6px 12px;
+.liquid-glass-pill {
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-top-color: rgba(255, 255, 255, 0.55);
+  border-bottom-color: rgba(255, 255, 255, 0.18);
+  padding: 11px 22px;
   border-radius: var(--radius-pill);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.hud-live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--apple-green);
-  box-shadow: 0 0 8px var(--apple-green);
-  animation: pulseDot 1.5s infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-.hud-label {
-  font-family: var(--apple-mono);
-  font-size: 10px;
-  color: var(--text-tertiary-dark);
-  letter-spacing: 0.05em;
-}
-
-.hud-mono {
-  font-family: var(--apple-mono);
-  font-size: 11px;
-  color: var(--laser-cyan);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-/* Corner Viewfinder Brackets */
-.hud-corner-bracket {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: rgba(255, 255, 255, 0.35);
-  border-style: solid;
-  pointer-events: none;
-}
-
-.hud-corner-bracket.top-left {
-  top: 64px;
-  left: 24px;
-  border-width: 1.5px 0 0 1.5px;
-}
-
-.hud-corner-bracket.top-right {
-  top: 64px;
-  right: 24px;
-  border-width: 1.5px 1.5px 0 0;
-}
-
-.hud-corner-bracket.bottom-left {
-  bottom: 24px;
-  left: 24px;
-  border-width: 0 0 1.5px 1.5px;
-}
-
-.hud-corner-bracket.bottom-right {
-  bottom: 24px;
-  right: 24px;
-  border-width: 0 1.5px 1.5px 0;
-}
-
-/* Floating Tour Controller Bar */
-.floating-tour-bar {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(18, 18, 24, 0.78);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--border-glass);
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-  display: flex;
-  align-items: center;
   gap: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  z-index: 20;
-  pointer-events: auto;
+  box-shadow: 
+    0 12px 36px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(41, 151, 255, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.25);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.tour-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.liquid-glass-pill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-25deg);
+  animation: glassShimmer 4.5s infinite;
+}
+
+@keyframes glassShimmer {
+  0% { left: -120%; }
+  35%, 100% { left: 220%; }
+}
+
+.liquid-text {
+  font-size: 13.5px;
+  font-weight: 500;
   color: #ffffff;
-  width: 32px;
-  height: 32px;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.liquid-arrow-icon {
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
+  background: rgba(41, 151, 255, 0.28);
+  border: 1px solid rgba(41, 151, 255, 0.6);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 12px rgba(41, 151, 255, 0.4);
 }
 
-.tour-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+.liquid-glass-scroll:hover .liquid-glass-pill {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(41, 151, 255, 0.55),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7);
   transform: scale(1.05);
 }
 
-.tour-timeline {
-  width: 100px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.tour-progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
+.liquid-glass-scroll:hover .liquid-arrow-icon {
   background: var(--apple-blue);
-  box-shadow: 0 0 8px var(--apple-blue);
-  transition: width 0.1s linear;
+  box-shadow: 0 0 18px var(--apple-blue);
+  transform: translateY(2px);
 }
 
-.tour-chapters-nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ch-jump {
-  background: transparent;
-  border: none;
-  font-family: var(--apple-mono);
-  font-size: 11px;
-  color: var(--text-muted-dark);
-  padding: 4px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.ch-jump:hover, .ch-jump.active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.sound-toggle-btn {
-  color: var(--laser-cyan);
+@keyframes liquidGlassBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 24px rgba(41, 151, 255, 0.25);
+  }
+  50% {
+    transform: translateX(-50%) translateY(12px) scale(1.02);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55), 0 0 36px rgba(41, 151, 255, 0.45);
+  }
 }
 
 /* ==========================================================================
