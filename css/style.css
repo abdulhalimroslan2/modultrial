@@ -1,6 +1,6 @@
 /* ==========================================================================
-   MODUL TRIAL SPM 2026 - APPLE STORE MALAYSIA DESIGN SYSTEM
-   Theme aligned with https://sirhalimstore.vercel.app/ & Apple Store Malaysia
+   MODUL TRIAL SPM 2026 - APPLE MINIMALIST SHOWCASE THEME
+   Aligned with https://sirhalimstore.vercel.app/ & Apple Product Feature Cards
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -13,35 +13,29 @@
   --bg-page: #f5f5f7;
   --bg-white: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-dark: #000000;
-  --bg-nav: rgba(255, 255, 255, 0.82);
-  --bg-nav-dark: rgba(22, 22, 26, 0.88);
+  --bg-nav: rgba(255, 255, 255, 0.85);
   
   --text-main: #1d1d1f;
   --text-muted: #6e6e73;
   --text-tertiary: #86868b;
-  --text-white: #f5f5f7;
   
   --apple-blue: #0071e3;
   --apple-blue-hover: #0077ed;
-  --apple-blue-glow: rgba(0, 113, 227, 0.25);
+  --apple-blue-glow: rgba(0, 113, 227, 0.22);
   --apple-orange: #b64400;
   --apple-green: #34c759;
 
   --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-card: rgba(0, 0, 0, 0.05);
-  --border-dark: rgba(255, 255, 255, 0.12);
+  --border-card: rgba(0, 0, 0, 0.04);
 
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 28px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.08);
-  --shadow-float: 0 20px 50px rgba(0, 0, 0, 0.14);
-  --shadow-book: 0 25px 60px rgba(0, 0, 0, 0.22);
+  --shadow-book: 0 16px 45px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06);
 
-  --radius-card: 20px;
+  --radius-card: 28px;
   --radius-pill: 980px;
 
   --nav-height: 44px;
-  --ribbon-height: 40px;
 }
 
 /* Reset */
@@ -75,7 +69,7 @@ a {
    1. APPLE GLOBAL NAVIGATION
    ========================================================================== */
 .globalnav {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -85,11 +79,10 @@ a {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
   z-index: 1000;
-  transition: all 0.3s ease;
 }
 
 .globalnav-content {
-  max-width: 1024px;
+  max-width: 1080px;
   height: 100%;
   margin: 0 auto;
   padding: 0 22px;
@@ -102,9 +95,9 @@ a {
   display: flex;
   align-items: center;
   color: var(--text-main);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.015em;
   gap: 8px;
   transition: opacity 0.2s ease;
 }
@@ -150,273 +143,235 @@ a {
 }
 
 /* ==========================================================================
-   2. APPLE RIBBON NOTICE
+   2. SHOWCASE WRAPPER & HEADER
    ========================================================================== */
-.apple-ribbon {
-  margin-top: var(--nav-height);
-  background: #fbfbfd;
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.apple-ribbon strong {
-  color: var(--text-main);
-  font-weight: 600;
-}
-
-.apple-ribbon a {
-  color: var(--apple-blue);
-  font-weight: 500;
-  margin-left: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.apple-ribbon a:hover {
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   3. HERO SECTION
-   ========================================================================== */
-.hero-section {
-  padding: 50px 20px 20px;
-  text-align: center;
-  max-width: 920px;
+.showcase-wrapper {
+  max-width: 1240px;
   margin: 0 auto;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
-  background: rgba(182, 68, 0, 0.08);
-  color: var(--apple-orange);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: 16px;
-}
-
-.hero-headline {
-  font-size: 46px;
-  line-height: 1.08;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--text-main);
-  margin-bottom: 14px;
-}
-
-.hero-headline .gradient-text {
-  background: linear-gradient(135deg, #1d1d1f 30%, #0071e3 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-subheadline {
-  font-size: 19px;
-  line-height: 1.45;
-  font-weight: 400;
-  color: var(--text-muted);
-  max-width: 700px;
-  margin: 0 auto 26px;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.btn-apple-primary {
-  background: var(--apple-blue);
-  color: #ffffff;
-  padding: 12px 26px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 14px var(--apple-blue-glow);
-}
-
-.btn-apple-primary:hover {
-  background: var(--apple-blue-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px var(--apple-blue-glow);
-}
-
-.btn-apple-secondary {
-  background: #ffffff;
-  color: var(--text-main);
-  padding: 12px 24px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.btn-apple-secondary:hover {
-  background: #f5f5f7;
-  transform: translateY(-2px);
-}
-
-/* ==========================================================================
-   4. APPLE SEGMENTED SWITCHER (PELAJAR VS GURU)
-   ========================================================================== */
-.segmented-wrapper {
-  margin: 30px auto 16px;
-  display: flex;
-  justify-content: center;
-  padding: 0 20px;
-}
-
-.segmented-control {
-  background: rgba(0, 0, 0, 0.06);
-  padding: 5px;
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  gap: 6px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.segmented-btn {
-  border: none;
-  background: transparent;
-  padding: 11px 24px;
-  border-radius: var(--radius-pill);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
-}
-
-.segmented-btn.active {
-  background: #ffffff;
-  color: var(--text-main);
-  font-weight: 600;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-}
-
-.segmented-btn .badge-pill {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: rgba(0, 113, 227, 0.1);
-  color: var(--apple-blue);
-  font-weight: 600;
-}
-
-.segmented-btn.active .badge-pill {
-  background: var(--apple-blue);
-  color: #ffffff;
-}
-
-/* ==========================================================================
-   5. INTERACTIVE 3D FLIPBOOK VIEWER SECTION
-   ========================================================================== */
-.flipbook-section {
-  padding: 10px 20px 50px;
-  max-width: 1120px;
-  margin: 0 auto;
+  padding: 40px 24px 60px;
   width: 100%;
 }
 
-.flipbook-container-card {
+.showcase-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 36px;
+}
+
+.showcase-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apple-orange);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.showcase-title {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.025em;
+  margin-bottom: 10px;
+}
+
+.showcase-desc {
+  font-size: 17px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   3. APPLE INTERACTIVE SPLIT-VIEW CARD
+   ========================================================================== */
+.apple-card-container {
   background: #ffffff;
-  border-radius: 28px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border-card);
   box-shadow: var(--shadow-card);
-  padding: 26px 20px 30px;
+  padding: 44px 40px;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 44px;
+  align-items: center;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
 }
 
-.flipbook-container-card:hover {
+.apple-card-container:hover {
   box-shadow: var(--shadow-hover);
 }
 
-.flipbook-header {
+/* Left Side: Minimalist Accordion / Feature Tabs */
+.showcase-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.accordion-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 22px 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.accordion-item:first-child {
+  padding-top: 0;
+}
+
+.accordion-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 0 10px;
-  flex-wrap: wrap;
-  gap: 15px;
+  user-select: none;
 }
 
-.flipbook-title-group h3 {
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--text-main);
+.accordion-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-muted);
   letter-spacing: -0.015em;
+  transition: color 0.25s ease;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.flipbook-title-group p {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 3px;
+.accordion-item.active .accordion-title {
+  color: var(--text-main);
 }
 
-.flipbook-hint {
-  font-size: 12px;
-  color: var(--apple-blue);
-  background: rgba(0, 113, 227, 0.08);
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  font-weight: 500;
+.accordion-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-muted);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accordion-item.active .accordion-icon {
+  transform: rotate(180deg);
+  color: var(--text-main);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.3s ease;
+}
+
+.accordion-item.active .accordion-body {
+  max-height: 220px;
+  opacity: 1;
+  padding-top: 12px;
+}
+
+.accordion-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.accordion-meta {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--apple-blue);
+  background: rgba(0, 113, 227, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-top: 10px;
 }
 
-.flipbook-stage-outer {
+/* Sidebar Bottom CTAs */
+.sidebar-actions {
+  margin-top: 30px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-apple-primary {
+  background: var(--apple-blue);
+  color: #ffffff;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
   align-items: center;
-  min-height: 560px;
-  width: 100%;
-  position: relative;
-  perspective: 2500px;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px var(--apple-blue-glow);
+  text-align: center;
+}
+
+.btn-apple-primary:hover {
+  background: var(--apple-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--apple-blue-glow);
+}
+
+.btn-apple-secondary {
+  background: #f5f5f7;
+  color: var(--text-main);
+  padding: 11px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.btn-apple-secondary:hover {
+  background: #ebebef;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   4. RIGHT SIDE: A4 LANDSCAPE FLIPBOOK STAGE
+   ========================================================================== */
+.showcase-stage-card {
   background: radial-gradient(circle at 50% 50%, #fafafa 0%, #ebebef 100%);
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 24px 10px;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  position: relative;
   overflow: hidden;
 }
 
-/* The Flipbook Canvas Wrapper */
 #flipbookWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   position: relative;
+  width: 100%;
 }
 
 .flipbook-instance {
@@ -426,7 +381,7 @@ a {
   align-items: center !important;
 }
 
-/* StPageFlip Engine Overrides for Pure A4 Landscape */
+/* StPageFlip Engine Overrides for Pure A4 Landscape Centering */
 .stf__parent {
   margin: 0 auto !important;
   box-shadow: var(--shadow-book) !important;
@@ -459,15 +414,13 @@ a {
   pointer-events: none !important;
 }
 
-/* ==========================================================================
-   6. FLOATING CUPERTINO HUD CONTROLS
-   ========================================================================== */
-.flipbook-hud {
+/* Minimalist HUD Controls */
+.stage-hud {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 18px;
   flex-wrap: wrap;
 }
 
@@ -475,293 +428,54 @@ a {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .hud-btn:hover {
   background: #f5f5f7;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .hud-btn:active {
   transform: scale(0.95);
 }
 
-.hud-page-indicator {
-  background: rgba(0, 0, 0, 0.05);
-  padding: 8px 18px;
+.hud-indicator {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 7px 16px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: -0.01em;
-  min-width: 130px;
-  text-align: center;
-}
-
-.hud-action-pill {
-  background: rgba(0, 113, 227, 0.08);
-  border: 1px solid rgba(0, 113, 227, 0.15);
-  color: var(--apple-blue);
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.hud-action-pill:hover {
-  background: var(--apple-blue);
-  color: #ffffff;
-}
-
-/* ==========================================================================
-   7. BENTO GRID FEATURES (APPLE STYLE)
-   ========================================================================== */
-.bento-section {
-  padding: 50px 20px;
-  max-width: 1120px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.section-header {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 40px;
-}
-
-.section-eyebrow {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--apple-orange);
-  letter-spacing: -0.01em;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.section-title {
-  font-size: 34px;
-  line-height: 1.15;
-  font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-.section-desc {
-  font-size: 17px;
-  color: var(--text-muted);
-  line-height: 1.45;
-}
-
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.bento-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-card);
-  padding: 32px 26px;
-  border: 1px solid var(--border-card);
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.bento-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-}
-
-.bento-card.dark {
-  background: #111113;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.bento-card.span-2 {
-  grid-column: span 2;
-}
-
-.bento-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(0, 113, 227, 0.08);
-  color: var(--apple-blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
-.bento-card.dark .bento-icon {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-.bento-card h4 {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin-bottom: 10px;
-  color: var(--text-main);
-}
-
-.bento-card.dark h4 {
-  color: #ffffff;
-}
-
-.bento-card p {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
-.bento-card.dark p {
-  color: #a1a1a6;
-}
-
-/* ==========================================================================
-   8. PRICING & BUY CTA SECTION
-   ========================================================================== */
-.pricing-section {
-  padding: 50px 20px 80px;
-  max-width: 920px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.pricing-card {
-  background: #ffffff;
-  border-radius: 28px;
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-float);
-  padding: 45px 36px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.pricing-badge {
-  display: inline-block;
-  background: rgba(0, 113, 227, 0.1);
-  color: var(--apple-blue);
   font-size: 12px;
   font-weight: 600;
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 16px;
-}
-
-.pricing-title {
-  font-size: 30px;
-  font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 8px;
-  letter-spacing: -0.02em;
-}
-
-.pricing-price-box {
-  margin: 20px 0 25px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-}
-
-.price-currency {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.price-amount {
-  font-size: 52px;
-  font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.03em;
-}
-
-.price-period {
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
-.pricing-features {
-  list-style: none;
-  max-width: 480px;
-  margin: 0 auto 32px;
-  text-align: left;
-}
-
-.pricing-features li {
-  font-size: 14px;
-  color: var(--text-main);
-  padding: 9px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.pricing-features li svg {
-  color: var(--apple-green);
-  flex-shrink: 0;
-}
-
-.pricing-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  letter-spacing: -0.01em;
+  min-width: 120px;
+  text-align: center;
 }
 
 /* ==========================================================================
-   9. FOOTER
+   5. MINIMALIST APPLE FOOTER
    ========================================================================== */
 .globalfooter {
   background: #f5f5f7;
   border-top: 1px solid var(--border-subtle);
-  padding: 40px 20px 50px;
+  padding: 30px 20px 40px;
   font-size: 12px;
   color: var(--text-tertiary);
   margin-top: auto;
 }
 
 .footer-content {
-  max-width: 1024px;
+  max-width: 1080px;
   margin: 0 auto;
-}
-
-.footer-disclaimer {
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -781,27 +495,17 @@ a {
 }
 
 /* Responsive */
-@media (max-width: 860px) {
-  .hero-headline {
-    font-size: 32px;
-  }
-  .hero-subheadline {
-    font-size: 16px;
-  }
-  .bento-grid {
+@media (max-width: 990px) {
+  .apple-card-container {
     grid-template-columns: 1fr;
+    padding: 30px 20px;
+    gap: 32px;
   }
-  .bento-card.span-2 {
-    grid-column: span 1;
+  .showcase-stage-card {
+    min-height: 420px;
+    padding: 16px 8px;
   }
-  .flipbook-stage-outer {
-    min-height: 440px;
-    padding: 15px 5px;
-  }
-  .globalnav-list {
-    display: none;
-  }
-  .pricing-card {
-    padding: 35px 20px;
+  .showcase-title {
+    font-size: 32px;
   }
 }
