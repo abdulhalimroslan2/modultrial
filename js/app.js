@@ -109,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 3. APPLE PROMOTION 120HZ / 60FPS HARDWARE CANVAS SCROLL ENGINE
+  // ==========================================================================
+  // 3. APPLE PROMOTION 120HZ / 60FPS HARDWARE CANVAS SCROLL & MORPHING ENGINE
   // ==========================================================================
   const canvas = document.getElementById('cinematicCanvas');
   const ctx = canvas ? canvas.getContext('2d', { alpha: false, desynchronized: true }) : null;
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isFramesLoaded = false;
   let targetFrameProgress = 0;
   let currentRenderProgress = 0;
-  let lastDrawnFrame = -1;
+  let lastRenderedProgress = -1;
 
   function setCanvasResolution() {
     if (!canvas) return;
@@ -126,20 +127,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = canvas.getBoundingClientRect();
     canvas.width = (rect.width || window.innerWidth) * dpr;
     canvas.height = (rect.height || window.innerHeight) * dpr;
-    const frameIndex = Math.min(Math.max(Math.round(currentRenderProgress * (frameCount - 1)), 0), frameCount - 1);
-    drawFrame(frameIndex);
+    drawMorphFrame(currentRenderProgress);
   }
 
-  function drawFrame(frameIndex) {
+  /**
+   * Continuous Sub-Frame Morphing Engine:
+   * Uses fractional Hermite SmoothStep interpolation between adjacent video keyframes
+   * completely eliminating discrete frame stepping and stutter during scroll.
+   */
+  function drawMorphFrame(progress) {
     if (!ctx || !canvas) return;
-    const clampedIndex = Math.min(Math.max(frameIndex, 0), frameCount - 1);
-    const img = frameImages[clampedIndex];
-    if (!img || !img.complete) return;
+    const clamped = Math.min(Math.max(progress, 0), 1);
+    const rawIndex = clamped * (frameCount - 1);
+    const indexA = Math.floor(rawIndex);
+    const indexB = Math.min(indexA + 1, frameCount - 1);
+    const t = rawIndex - indexA; // fractional sub-frame distance (0.0 to 1.0)
+
+    // Hermite SmoothStep curve: S(t) = 3t^2 - 2t^3
+    const morphFactor = t * t * (3 - 2 * t);
+
+    let imgA = frameImages[indexA];
+    let imgB = frameImages[indexB];
+
+    // Safe fallback if target frame is still streaming into cache
+    if (!imgA || !imgA.complete) {
+      for (let offset = 1; offset < frameCount; offset++) {
+        if (frameImages[indexA - offset] && frameImages[indexA - offset].complete) {
+          imgA = frameImages[indexA - offset];
+          break;
+        }
+        if (frameImages[indexA + offset] && frameImages[indexA + offset].complete) {
+          imgA = frameImages[indexA + offset];
+          break;
+        }
+      }
+    }
+    if (!imgA || !imgA.complete) return;
 
     const cw = canvas.width;
     const ch = canvas.height;
-    const iw = img.naturalWidth || 1280;
-    const ih = img.naturalHeight || 720;
+    const iw = imgA.naturalWidth || 1280;
+    const ih = imgA.naturalHeight || 720;
     const hRatio = cw / iw;
     const vRatio = ch / ih;
     const ratio = Math.max(hRatio, vRatio);
@@ -148,7 +176,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const shiftX = (cw - renderW) / 2;
     const shiftY = (ch - renderH) / 2;
 
-    ctx.drawImage(img, 0, 0, iw, ih, shiftX, shiftY, renderW, renderH);
+    // Draw primary base frame at full opacity
+    ctx.globalAlpha = 1.0;
+    ctx.drawImage(imgA, 0, 0, iw, ih, shiftX, shiftY, renderW, renderH);
+
+    // Continuous sub-frame morphing cross-dissolve
+    if (morphFactor > 0.002 && indexB !== indexA && imgB && imgB.complete) {
+      ctx.globalAlpha = morphFactor;
+      ctx.drawImage(imgB, 0, 0, iw, ih, shiftX, shiftY, renderW, renderH);
+      ctx.globalAlpha = 1.0;
+    }
   }
 
   // Preload all frames asynchronously for zero-latency 120Hz scrubbing
@@ -161,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loadedCount++;
       if (loadedCount === 1) {
         setCanvasResolution();
-        drawFrame(0);
+        drawMorphFrame(0);
       }
       if (loadedCount >= 10 && !isFramesLoaded) {
         isFramesLoaded = true;
@@ -171,16 +208,18 @@ document.addEventListener('DOMContentLoaded', () => {
     frameImages.push(img);
   }
 
-  // 120Hz ProMotion LERP Render Loop
+  // 120Hz ProMotion LERP Render Loop with Sub-Frame Morphing
   function promotionRenderLoop() {
     const diff = targetFrameProgress - currentRenderProgress;
-    if (Math.abs(diff) > 0.0001) {
-      currentRenderProgress += diff * 0.24;
-      const frameToDraw = Math.min(Math.max(Math.round(currentRenderProgress * (frameCount - 1)), 0), frameCount - 1);
-      if (frameToDraw !== lastDrawnFrame) {
-        lastDrawnFrame = frameToDraw;
-        drawFrame(frameToDraw);
-      }
+    if (Math.abs(diff) > 0.00002) {
+      // Fluid continuous LERP damping (0.18 per frame)
+      currentRenderProgress += diff * 0.18;
+      drawMorphFrame(currentRenderProgress);
+      lastRenderedProgress = currentRenderProgress;
+    } else if (Math.abs(lastRenderedProgress - targetFrameProgress) > 0.00001) {
+      currentRenderProgress = targetFrameProgress;
+      drawMorphFrame(currentRenderProgress);
+      lastRenderedProgress = currentRenderProgress;
     }
     requestAnimationFrame(promotionRenderLoop);
   }
@@ -198,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger: ".cinematic-scroll-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.1,
+        scrub: 0.05,
         onUpdate: (self) => {
           targetFrameProgress = self.progress;
           // Fade out scroll indicator when scrolling past 12%

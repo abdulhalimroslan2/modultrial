@@ -221,6 +221,7 @@ a {
   pointer-events: none !important;
   user-select: none !important;
   -webkit-user-select: none !important;
+  contain: strict;
 }
 
 .cinematic-canvas {
@@ -233,6 +234,7 @@ a {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+  image-rendering: auto;
 }
 
 .cinematic-vignette {
