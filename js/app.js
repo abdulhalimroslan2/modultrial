@@ -193,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
     if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
-    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
     const timelineConfig = {
       scrollTrigger: {
         trigger: ".cinematic-scroll-container",
@@ -210,16 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     };
-
-    if (!isMobileDevice) {
-      timelineConfig.scrollTrigger.snap = {
-        snapTo: [0, 0.333, 0.666, 1.0],
-        duration: { min: 0.25, max: 0.6 },
-        delay: 0.05,
-        ease: "power2.out",
-        inertia: false
-      };
-    }
 
     gsap.timeline(timelineConfig);
 

@@ -63,7 +63,6 @@ html {
   background-color: var(--bg-void);
   color: var(--text-pure);
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
 }
 
 body.cinematic-theme {
@@ -304,7 +303,6 @@ a {
 .scroll-chapters-track {
   position: relative;
   z-index: 5;
-  scroll-snap-type: y mandatory;
 }
 
 .cinematic-chapter {
@@ -315,8 +313,6 @@ a {
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
 }
 
 /* ==========================================================================
@@ -616,7 +612,6 @@ a {
   border-top-left-radius: 36px;
   border-top-right-radius: 36px;
   box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.8);
-  scroll-snap-align: start;
 }
 
 .showcase-wrapper {
